@@ -7,7 +7,6 @@ TODO:
     * interesting libraries (git)
     * ssh and remoting.  
 
-
 ## Install
 
 ```sh
@@ -33,6 +32,11 @@ Steps [README.md](./01_basic_commands/README.md)
 
 Demonstrate how to deal with `json` data in Powershell
 Steps [README.md](./02_json/README.md)  
+
+## 03 - Docker
+
+Demonstrate how to run powershell inside a docker container  
+Steps [README.md](./03_docker/README.md)  
 
 ## Resources
 
