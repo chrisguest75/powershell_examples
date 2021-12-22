@@ -11,4 +11,5 @@ docker run -it --entrypoint /bin/pwsh powershell
 
 ## Resources
 
-* https://docs.microsoft.com/en-us/powershell/scripting/install/install-debian?view=powershell-7.2
+* Installing PowerShell on Debian Linux [here](https://docs.microsoft.com/en-us/powershell/scripting/install/install-debian?view=powershell-7.2)
+* Using PowerShell in Docker [here](https://docs.microsoft.com/en-us/powershell/scripting/install/powershell-in-docker?view=powershell-7.2)

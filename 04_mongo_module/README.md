@@ -15,13 +15,12 @@ docker compose --profile backend up -d
 # quick test
 docker logs $(docker ps --filter name=04_installing_modules-mongodb-1 -q)
 docker logs $(docker ps --filter name=04_installing_modules-client-1 -q)
-
-
 ```
 
 ## Process
 
 ```ps1
+# enter the container
 docker exec -it $(docker ps --filter name=04_installing_modules-client-1 -q) /bin/pwsh 
 
 Install-Module -Name PowerShellGet -RequiredVersion 2.2.1 -Force
@@ -54,7 +53,8 @@ Get-MdbcData -Count
 ```
 
 ## Resources
-https://www.powershellgallery.com/
-https://www.powershellgallery.com/packages/PowerShellGet/2.2.1
-https://www.powershellgallery.com/packages/Mdbc/6.5.12
-https://github.com/nightroman/Mdbc
+
+* Powerhsell Gallery [here](https://www.powershellgallery.com/)
+* PowerShellGet 2.2.1 [here](https://www.powershellgallery.com/packages/PowerShellGet/2.2.1)
+* Mdbc module - MongoDB Cmdlets for PowerShell [here](https://www.powershellgallery.com/packages/Mdbc/6.5.12)
+* MongoDB Cmdlets for PowerShell [repo](https://github.com/nightroman/Mdbc)
