@@ -42,6 +42,8 @@ get-help * -Category cmdlet
 get-help * -category alias
 ```
 
+## Pipes
+
 ```ps1
 ############################################################
 # Piping
@@ -67,7 +69,7 @@ gps | where ProcessName -eq "zsh" | sort-object -Property Id -Descending
 ############################################################
 [uint16]$a | get-member
 [switch]$a | get-member
- “hello” | get-member
+“hello” | get-member
 ```
 
 ## XML
@@ -89,7 +91,7 @@ $x.a.b.c
 $x.a.b.c |% {[int]$_ * 8}
 ```
 
-## Providers 
+## Providers
 
 ```ps1
 ############################################################
@@ -103,6 +105,8 @@ dir variable:*
 dir env:*
 ```
 
+## File functions
+
 ```ps1
 ############################################################
 # Demonstrate files 
@@ -112,20 +116,23 @@ get-content test.txt
 add-content test.txt "world"
 get-content test.txt
 remove-item test.txt
+```
 
+## Provider iteration
+
+```ps1
 ############################################################
 # Demonstrate listing provider manipulation 
 ############################################################
-(get-childitem "C:\")
-(get-childitem Function:\mkdir).Definition
+(get-childitem "../")
+(get-childitem Function:\cd..).Definition
 (get-childitem Function:*)
 (dir Function:\Clear-Host).Definition
+```
 
-############################################################
-# Array
-############################################################
+## Arrays
 
-cls
+```ps1
 ############################################################
 # Array
 ############################################################
@@ -137,24 +144,36 @@ $array
 $a = 1
 $a[0]
 $a[1]
+```
 
+## Constants
+
+```ps1
 ############################################################
 # Constants
 ############################################################
 1MB * 2GB
 8 * 1MB
 1MB / 1KB
+```
 
+## Conditionals 
+
+```ps1
 ############################################################
 # Conditionals
 ############################################################
 1 –eq 2
 2 –eq 2
-“hello” –eq “hello2”
-“hello” –eq “hello”
+"hello" –eq "hello2"
+"hello" –eq "hello"
 "hello" -like "l*"
 "hello" -like "z*"
+```
 
+## Loops
+
+```ps1
 ############################################################
 # Loops
 ############################################################
@@ -163,17 +182,19 @@ for($index = 0; $index -lt $array.Length; $index++)
 {
 write-host $array[$index]
 }
+```
 
+## External scripts and dotsourcing
 
-
+```ps1
 ############################################################
 # Scripts
 ############################################################
 
 cls 
 ### Save the following line to a file called “AnArray.ps1”. 
-If(test-path variable:array) {remove-item variable:array}
-Set-content “.\AnArray.ps1” (‘$array = @("disk1", "disk2", "disk4")’) 
+if(test-path variable:array) {remove-item variable:array}
+set-content “.\AnArray.ps1” (‘$array = @("disk1", "disk2", "disk4")’) 
 
 ############################################################
 # Include Script
@@ -191,15 +212,19 @@ write-host ("[ARRAY] "+ $array)
 write-host ("[ARRAY] "+ $array)
 
 remove-item “.\AnArray.ps1” 
+```
+
+## Functions and return values
+
+```ps1
 ############################################################
 # Functions
 ############################################################
-Cls
+cls
 
 function Print-Array([array]$arr)
 {
-	foreach($a in $arr)
-	{
+	foreach($a in $arr) {
 		write-host $a
 	}
 }
@@ -214,7 +239,11 @@ function Return-Multiple()
 
 Print-Array @(1,2,3)
 Return-Multiple
+```
 
+## Attributes
+
+```ps1
 ############################################################
 # Attributes
 ############################################################
@@ -284,11 +313,17 @@ Check-Pattern "hello"
 ############################################################
 get-help check
 get-help check-length -detailed
+```
+
+## Objects
+
+```ps1
 ############################################################
 # Types
 ############################################################
 #http://blogs.msdn.com/b/powershell/archive/2006/11/24/what-s-up-with-psbase-psextended-psadapted-and-psobject.aspx
 cls 
+
 ############################################################
 # Demonstrate Custom Types 
 ############################################################
@@ -327,13 +362,16 @@ $a | get-member
 $a.psobject | get-member
 $a.psobject.Members | get-member
 $a.psobject.baseobject | get-member
+```
 
+## C# functions
 
+```ps1
 ############################################################
 # C#
 ############################################################
 
-Cls
+cls
 function Create-MyObject()
 {
     #Construct object to store properties in
@@ -347,7 +385,7 @@ function Create-MyObject()
     }
 "@
     
-    Add-Type $csharp -Language CsharpVersion3
+    Add-Type $csharp -Language Csharp
 }
 
 Create-MyObject
@@ -355,25 +393,35 @@ $a = new-object MyObject
 $a.Name = "hello"
 $a.Value = "world"
 $a
+```
+
+## Modules
+
+```ps1
 ############################################################
 # Modules
 ############################################################
-Cls
+cls
 
-Mkdir “.\amodule”
-Set-content “.\amodule\amodule.psm1” (
-“function Write-Module([string]`$str) { write-host `$str}
+mkdir “./amodule"
+Set-content "./amodule/amodule.psm1" (
+"function Write-Module([string]`$str) { write-host `$str}
 function Write-PrivateModule([string]`$str) { write-host `$str}
-export-modulemember -function Write-Module”)
-import-module .\amodule\amodule.psm1
-Write-Module “hello from a module”
-Write-PrivateModule “cant find this”
+export-modulemember -function Write-Module")
+import-module ./amodule/amodule.psm1
+Write-Module "hello from a module"
+Write-PrivateModule "cant find this"
 (get-module amodule) | get-member
+remove-item ./amodule                 
+```
 
+## Jobs
+
+```ps1
 ############################################################
 # Jobs
 ############################################################
-Cls
+cls
 $a = Start-job {Invoke-WebRequest "www.google.com"}
 $b = Start-job {Invoke-WebRequest “www.bing.com”}
 Get-job 
@@ -383,3 +431,4 @@ Wait-job $b
 Receive-job $b
 
 ```
+
