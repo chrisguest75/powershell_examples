@@ -1,0 +1,33 @@
+services:
+    mongodb:
+        image: mongo:latest
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: rootpassword
+            MONGO_INITDB_DATABASE: test
+        ports:
+            - 27017:27017
+        volumes:
+            - 04_installing_modules_data_container:/data/db
+            - ./mongo/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        networks:
+            - service_bridge    
+        profiles: [backend]            
+
+    client:
+        build: ./client
+        environment:
+            PORT: 3000
+            MONGO_URI: mongodb://root:rootpassword@mongodb:27017/test           
+            MONGO_DB_NAME: test
+        networks:
+            - service_bridge
+        profiles: [backend]   
+
+volumes:
+    04_installing_modules_data_container:
+
+networks:
+    service_bridge:
+        driver: bridge        
+        
