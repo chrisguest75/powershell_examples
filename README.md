@@ -2,6 +2,12 @@
 
 Powershell examples.
 
+TODO:
+
+    * interesting libraries (git)
+    * ssh and remoting.  
+
+
 ## Install
 
 ```sh
@@ -18,10 +24,15 @@ pwsh
 Add-Content -Path $PROFILE.CurrentUserAllHosts -Value '$(/usr/local/bin/brew shellenv) | Invoke-Expression'
 ```
 
-## Example 1 - Basic Commands
+## 01 - Basic Commands
 
 Demonstrate some basic commands in Powershell  
 Steps [README.md](./01_basic_commands/README.md)  
+
+## 02 - JSON
+
+Demonstrate how to deal with `json` data in Powershell
+Steps [README.md](./02_json/README.md)  
 
 ## Resources
 
