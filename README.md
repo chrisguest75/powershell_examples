@@ -43,6 +43,11 @@ Steps [README.md](./03_docker/README.md)
 Demonstrate how to install and use a `mongo` packages  
 Steps [README.md](./04_mongo_module/README.md)  
 
+## 06 - AWS CLI
+
+Demonstrate how to use AWS cli and parse answers with `powershell`.  
+Steps [README.md](./06_awscli/README.md)  
+
 ## Resources
 
 * adamdriscoll/awesome-powershell repo [here](https://github.com/adamdriscoll/awesome-powershell)
