@@ -39,6 +39,6 @@ if(($help -eq $true) -or ($showhelp -eq $true))
     return
 }
 
-Get-ChildItem -Path $path
+Get-ChildItem -Path $path -Recurse | Select-Object size,name | Measure-Object -Property size -Minimum -Maximum -Sum -Average
 
 
