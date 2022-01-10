@@ -48,13 +48,17 @@ if ($export) {
         return
     }
 
-    $outDir = "logfiles"
-    New-Item -Path "." -Name $outDir -ItemType "directory" -Force
+    $baseDir = "logfiles"
+    New-Item -Path "." -Name $baseDir -ItemType "directory" -Force
 
     $jobs = (./extract-failed-batch-logs.ps1 -failedjobs -queue $queue | select-object jobId)
 
     $jobs | ForEach-Object {
+        $outDir = Join-Path $baseDir $_.jobId
+        New-Item -Path $baseDir -Name $_.jobId -ItemType "directory" -Force
+
         $streams = (./extract-failed-batch-logs.ps1 -logstreams -jobid $_.jobId)
+
         $streams.logStreamName | ForEach-Object {
             $streamId = $_
             $file = $streamId.replace("/", "_")
