@@ -51,11 +51,14 @@ if ($export) {
     $baseDir = "logfiles"
     New-Item -Path "." -Name $baseDir -ItemType "directory" -Force
 
-    $jobs = (./extract-failed-batch-logs.ps1 -failedjobs -queue $queue | select-object jobId)
+    $jobs = (./extract-failed-batch-logs.ps1 -failedjobs -queue $queue)
 
     $jobs | ForEach-Object {
         $outDir = Join-Path $baseDir $_.jobId
         New-Item -Path $baseDir -Name $_.jobId -ItemType "directory" -Force
+
+        $infoPath = Join-Path $outDir ($_.jobId + ".txt")
+        $_ | Set-Content $infoPath 
 
         $streams = (./extract-failed-batch-logs.ps1 -logstreams -jobid $_.jobId)
 
@@ -64,7 +67,7 @@ if ($export) {
             $file = $streamId.replace("/", "_")
             $outPath = Join-Path $outDir ($file + ".txt")
             Write-Host $outPath
-            (./extract-failed-batch-logs.ps1 -logs -streamid $streamId) | out-file $outPath -append -noclobber
+            (./extract-failed-batch-logs.ps1 -logs -streamid $streamId) | out-file $outPath  
         }
     }
 }
