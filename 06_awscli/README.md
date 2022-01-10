@@ -4,6 +4,15 @@ Demonstrate how to use AWS cli and parse answers with `powershell`.
 
 Use [Shell Examples/32_awscli](https://github.com/chrisguest75/shell_examples/tree/master/33_awscli) as reference.  
 
+## Scripts
+
+The scripts allow quick interogration of AWS Batch logs.  
+
+```sh
+./extract-all-failed-batch-logs.ps1
+./extract-failed-batch-logs.ps1
+```
+
 ## Process Batch Failures
 
 Finds failures in batch queues and converts timestamp to human-readable datetime.  
