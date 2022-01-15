@@ -79,6 +79,11 @@ Steps [README.md](./08_iterate_folders/README.md)
 Demonstrate using the official AWS Powershell Module for Batch  
 Steps [README.md](./10_awsbatch/README.md)  
 
+## 12 - remoting
+
+Configure SSH Remoting in Powershell.  
+Steps [README.md](./12_remoting/README.md)  
+
 ## Resources
 
 * adamdriscoll/awesome-powershell repo [here](https://github.com/adamdriscoll/awesome-powershell)
