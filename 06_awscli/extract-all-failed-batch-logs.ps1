@@ -41,6 +41,15 @@ if(($help -eq $true) -or ($showhelp -eq $true))
     return
 }
 
+if ($null -eq $env:AWS_PROFILE) {
+    Write-Host "AWS_PROFILE is not set"
+    return
+}
+if ($null -eq $env:AWS_REGION) {
+    Write-Host "AWS_REGION is not set"
+    return
+}
+
 if ($export) {
     if($queue -eq "")
     {

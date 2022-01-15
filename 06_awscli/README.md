@@ -4,13 +4,45 @@ Demonstrate how to use AWS cli and parse answers with `powershell`.
 
 Use [Shell Examples/32_awscli](https://github.com/chrisguest75/shell_examples/tree/master/33_awscli) as reference.  
 
+TODO:  
+
+* Find the container parameters for the job (mem, cpu, image)
+* Get other data (running time, etc)  
+
 ## Scripts
+
+### Show Queues
+
+```sh
+./show-queues.ps1 -showqueues      
+```
+
+### Jobs and Logs
 
 The scripts allow quick interogration of AWS Batch logs.  
 
 ```sh
-./extract-all-failed-batch-logs.ps1
-./extract-failed-batch-logs.ps1
+# show the list of queues 
+./extract-failed-batch-logs.ps1 -showqueues    
+
+# get failed jobs for a queue
+./extract-failed-batch-logs.ps1 -failedjobs -queue my-queue
+# or
+./extract-failed-batch-logs.ps1 -failedjobs -queue my-queue
+
+# take jobid from failed jobs and get streams
+./extract-failed-batch-logs.ps1 -logstreams -jobid 5c1cee8f-b623-4b86-abae-00000000
+
+# take the logstream id and print out the logs. 
+./extract-failed-batch-logs.ps1 -logs -streamid my-queue/default/7ba44287e4cb468fa1fcd1c700000000
+```
+
+## Export All
+
+Export all the failed logs into a folder
+
+```sh
+./extract-all-failed-batch-logs.ps1 -export -queue my-queue
 ```
 
 ## Process Batch Failures
