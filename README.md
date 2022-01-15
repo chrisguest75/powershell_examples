@@ -23,10 +23,15 @@ pwsh
 Add-Content -Path $PROFILE.CurrentUserAllHosts -Value '$(/usr/local/bin/brew shellenv) | Invoke-Expression'
 ```
 
-## 01 - Basic Commands
+## 00 - Basic Commands
 
 Demonstrate some basic commands in Powershell  
-Steps [README.md](./01_basic_commands/README.md)  
+Steps [README.md](./00_basic_commands/README.md)  
+
+## 01 - Template
+
+A template script as an example to create others.  
+Steps [README.md](./01_template_script/README.md)  
 
 ## 02 - JSON
 
@@ -47,6 +52,16 @@ Steps [README.md](./04_mongo_module/README.md)
 
 Demonstrate how to use AWS cli and parse answers with `powershell`.  
 Steps [README.md](./06_awscli/README.md)  
+
+## 07 - String Generation
+
+Demonstrate text generation effects.  
+Steps [README.md](./07_string_generation/README.md)  
+
+## 08 - Iterate Folders
+
+Demonstrate iterating over files and directories  
+Steps [README.md](./08_iterate_folders/README.md)  
 
 ## Resources
 
