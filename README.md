@@ -4,8 +4,14 @@ Powershell examples.
 
 TODO:
 
-    * interesting libraries (git)
-    * ssh and remoting.  
+* interesting libraries (git)
+* ssh and remoting.
+* Create juypter example
+* Plaster
+* Pester
+* ScriptAnalyser
+* NPM package example
+* AWS batch module
 
 ## Install
 
