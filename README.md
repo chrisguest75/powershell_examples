@@ -8,10 +8,10 @@ TODO:
 * ssh and remoting.
 * Create juypter example
 * Plaster
-* Pester
 * ScriptAnalyser
 * NPM package example
-* AWS batch module
+* Logging
+* $isDotSourced = $MyInvocation.InvocationName -eq '.' -or $MyInvocation.Line -eq ''
 
 ## Install
 
@@ -54,6 +54,11 @@ Steps [README.md](./03_docker/README.md)
 Demonstrate how to install and use a `mongo` packages  
 Steps [README.md](./04_mongo_module/README.md)  
 
+## 05 - Pester
+
+Demonstrate how to run pester to test a script  
+Steps [README.md](./05_pester/README.md)  
+
 ## 06 - AWS CLI
 
 Demonstrate how to use AWS cli and parse answers with `powershell`.  
@@ -68,6 +73,11 @@ Steps [README.md](./07_string_generation/README.md)
 
 Demonstrate iterating over files and directories  
 Steps [README.md](./08_iterate_folders/README.md)  
+
+## 10 - awsbatch
+
+Demonstrate using the official AWS Powershell Module for Batch  
+Steps [README.md](./10_awsbatch/README.md)  
 
 ## Resources
 
