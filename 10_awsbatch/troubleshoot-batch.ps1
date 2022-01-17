@@ -30,6 +30,10 @@ Get the job details for the container including logstream
 Use streamid to get log events
 ./troubleshoot-batch.ps1 -logs -logstream streamid/default/af975bc49b3941f993db3cdfdd003b81
 
+# Try to find retried jobs.
+./troubleshoot-batch.ps1 -jobs -queue queuename -status SUCCEEDED | ForEach-Object {(./troubleshoot-batch.ps1 -jobdetails -jobid $_.JobId).Attempts.Length } | measure -AllStats
+
+
 #>
 param(
     [Parameter(Mandatory=$false)][switch]$help=$false,
