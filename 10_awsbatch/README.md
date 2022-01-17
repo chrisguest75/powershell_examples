@@ -7,7 +7,12 @@ Demonstrate using the official AWS Powershell Module for Batch
 ```ps1
 . ./.env.ps1   
 ./show-queues.ps1  
+```
 
+## Troubleshoot batch
+
+```ps1
+. ./.env.ps1   
 ./troubleshoot-batch.ps1 -showqueues
 ./troubleshoot-batch.ps1 -jobs -queue queuename
 
@@ -18,17 +23,18 @@ Demonstrate using the official AWS Powershell Module for Batch
 ## Installation
 
 ```ps1
+# ensure powershellget is installed
 Install-Module -Name PowerShellGet -RequiredVersion 2.2.1 -Force
 
+# install batch module 
 Find-Module  -Name "AWS.Tools.Batch*"
-
 Install-Module -Name "AWS.Tools.Batch"
 Get-InstalledModule
 Import-Module "AWS.Tools.Batch"
 Find-Command -ModuleName "AWS.Tools.Common"
 Find-Command -ModuleName "AWS.Tools.Batch"
 
-# sorted by name
+# sort functions by name
 Find-Command -ModuleName "AWS.Tools.Common" | sort-object Name
 ```
 
@@ -41,13 +47,21 @@ Get-AWSCredential -ListProfile
 Set-AWSCredential -ProfileName $profilename
 ```
 
-```ps1
-# if default profile set
-Get-BATJobQueue 
+## Cloudwatch Logs
 
-# if not
-Get-BATJobQueue -ProfileName $profilename
-Get-BATJobQueue -ProfileName $profilename | select-object  JobQueueName
+```ps1
+Install-Module -Name "AWS.Tools.CloudWatchLogs"  
+Find-Command -ModuleName "AWS.Tools.CloudWatchLogs"  
+Import-Module "AWS.Tools.CloudWatchLogs"  
+
+Get-CWLLogEvent -LogGroupName "/aws/batch/job" -LogStreamNamePrefix "logstream/default/e118a5d1cf2e4582927c0d5e88719388"       
+(Get-CWLLogEvent -LogGroupName "/aws/batch/job" -LogStreamName "logstream/default/e118a5d1cf2e4582927c0d5e88719388").Events  
+
+# get environment variables for the job
+(Get-BATJobDetail -Job 83cac4f9-5f91-47ed-88c0-9d66333c547c).Container.Environment.Value
+
+# get out of memory failures
+./troubleshoot-batch.ps1 -jobs -queue $queuename | where { if ($null -ne $_.Reason) {$_.Reason.StartsWith("OutOfMemoryError")} else { return False} } | select JobId | % { (Get-BATJobDetail -Job $_.JobId).Container.Environment.Value}
 ```
 
 ## Resources  

@@ -15,7 +15,20 @@ Show a list of batch queues
 Show help
 
 .Example
+Show queue names
 ./troubleshoot-batch.ps1 -showqueues
+
+Show failed jobs on the queue 
+./troubleshoot-batch.ps1 -jobs -queue queuename
+
+Show details of the job
+./troubleshoot-batch.ps1 -jobdetails -jobid  6d010df1-9980-403f-bfd0-74350c5c216b
+
+Get the job details for the container including logstream
+(./troubleshoot-batch.ps1 -jobdetails -jobid  c5247910-255d-462c-a797-18a651fd0197).Attempts[0].Container
+
+Use streamid to get log events
+./troubleshoot-batch.ps1 -logs -logstream streamid/default/af975bc49b3941f993db3cdfdd003b81
 
 #>
 param(
@@ -23,9 +36,11 @@ param(
     [Parameter(Mandatory=$false)][switch]$showqueues=$false,
     [Parameter(Mandatory=$false)][switch]$jobs=$false,
     [Parameter(Mandatory=$false)][switch]$jobdetails=$false,
+    [Parameter(Mandatory=$false)][switch]$logs=$false,
     [Parameter(Mandatory=$false)][string]$queue="",
     [Parameter(Mandatory=$false)][string]$status="FAILED",
-    [Parameter(Mandatory=$false)][string]$jobid=""
+    [Parameter(Mandatory=$false)][string]$jobid="",
+    [Parameter(Mandatory=$false)][string]$logstream=""
 )
 
 function Show-Queues() {
@@ -37,6 +52,9 @@ function Show-Jobs([string]$queue="", [string]$jobstatus="FAILED") {
     $filtered | Select-Object -Property status,jobId,jobName,@{
         label='createdAt'
         expression={(Get-Date 01.01.1970)+([System.TimeSpan]::fromseconds( $_.CreatedAt/1000))}
+    },@{
+        label='startedAt'
+        expression={(Get-Date 01.01.1970)+([System.TimeSpan]::fromseconds( $_.StartedAt/1000))}
     },@{
         label='reason'
         expression={$_.container.reason}
@@ -54,6 +72,10 @@ function Show-Jobs([string]$queue="", [string]$jobstatus="FAILED") {
 
 function Show-JobDetails([string]$jobid="") {
     Get-BATJobDetail -Job $jobid 
+}
+
+function Show-Logs([string]$logstream="") {
+    (Get-CWLLogEvent -LogGroupName "/aws/batch/job" -LogStreamName $logstream).Events  
 }
 
 #***********************************************************************************************************
@@ -82,9 +104,10 @@ if ($null -eq $env:AWS_REGION) {
 }
 
 Import-Module "AWS.Tools.Batch"
-Get-AWSCredential
+Import-Module "AWS.Tools.CloudWatchLogs"  
+#Get-AWSCredential
 Set-AWSCredential -ProfileName $env:AWS_PROFILE
-Get-DefaultAWSRegion 
+#Get-DefaultAWSRegion 
 Set-DefaultAWSRegion -Region $env:AWS_REGION
 
 if ($showqueues) {
@@ -111,3 +134,12 @@ if ($jobdetails) {
     Show-JobDetails -jobid $jobid
 }
 
+if ($logs) {
+    if($logstream -eq "")
+    {
+        Write-Host "Logstream is missing (use -logstream)"
+        return
+    }
+
+    Show-Logs -logstream $logstream
+}
