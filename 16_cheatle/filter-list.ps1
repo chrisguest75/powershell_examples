@@ -9,14 +9,17 @@
 Show help
 
 .Example
-./filter-list.ps1 -filter -min 4 -max 8 -path ./words.txt
-./filter-list.ps1 -filter -min 5 -max 5 -path ./words.txt
+./filter-list.ps1 -create -min 4 -max 8 -path ./words.txt
+./filter-list.ps1 -create -min 5 -max 5 -path ./words.txt
+(./filter-list.ps1 -filter -min 5 -max 5 -path ./words.txt) | convertto-json | out-file 5letterwords.txt
+
 #>
 param(
     [Parameter(Mandatory=$false)][switch]$help=$false,
-    [Parameter(Mandatory=$false)][switch]$filter=$false,
+    [Parameter(Mandatory=$false)][switch]$create=$false,
     [Parameter(Mandatory=$false)][int]$min=5,
     [Parameter(Mandatory=$false)][int]$max=5,
+    [Parameter(Mandatory=$false)][string]$taken="",
     [Parameter(Mandatory=$false)][string]$path=""
 )
 
@@ -36,11 +39,12 @@ if(($help -eq $true) -or ($showhelp -eq $true))
     return
 }
 
-if ($filter) {
+if ($create) {
     $wordsfile = get-content $path
     $filtered = ($wordsfile | where { ($_.length -le $max) -and ($_.length -ge $min) })
 
-    $nodoubles = ($filtered | select-string -notmatch "(.)\1")
+    $nodoubles = ($filtered | select-string -notmatch "(.)\1") | ForEach-Object { $_.Line }
+
     [System.Collections.ArrayList]$words = @()
     $noduplicates = ($nodoubles | foreach-object {
         $letter=@{}
@@ -75,7 +79,7 @@ if ($filter) {
             $word = [PSCustomObject]@{
                 word = $_
                 vowels = $vowels
-                #letter = $letter
+                letter = $letter
                 }
             $word 
         }
@@ -85,5 +89,5 @@ if ($filter) {
     #$nodoubles.length
     #$noduplicates.length
 
-    $noduplicates | sort-object vowels
+    $noduplicates | sort-object vowels 
 }
