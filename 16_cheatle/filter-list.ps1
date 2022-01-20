@@ -11,7 +11,8 @@ Show help
 .Example
 ./filter-list.ps1 -create -min 4 -max 8 -path ./words.txt
 ./filter-list.ps1 -create -min 5 -max 5 -path ./words.txt
-(./filter-list.ps1 -filter -min 5 -max 5 -path ./words.txt) | convertto-json | out-file 5letterwords.txt
+(./filter-list.ps1 -create -min 5 -max 5 -path ./words.txt) | convertto-json | out-file 5letterwords.txt
+(./filter-list.ps1 -create -min 5 -max 5 -path ./words.txt) | convertto-json | out-file 5letterwordsdoubles.txt
 
 #>
 param(
@@ -43,7 +44,8 @@ if ($create) {
     $wordsfile = get-content $path
     $filtered = ($wordsfile | where { ($_.length -le $max) -and ($_.length -ge $min) })
 
-    $nodoubles = ($filtered | select-string -notmatch "(.)\1") | ForEach-Object { $_.Line }
+    #$nodoubles = ($filtered | select-string -notmatch "(.)\1") | ForEach-Object { $_.Line }
+    $nodoubles = $filtered
 
     [System.Collections.ArrayList]$words = @()
     $noduplicates = ($nodoubles | foreach-object {
@@ -53,7 +55,8 @@ if ($create) {
         [char[]]"$current" | foreach-object {
             $c=[string]$_
             if ($letter.contains($c)) {
-                $continue = $false
+                #$continue = $false
+                $continue = $true
             } else {
                 $letter.add($c, $true) 
             }
