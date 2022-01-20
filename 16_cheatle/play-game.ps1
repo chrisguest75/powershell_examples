@@ -48,22 +48,52 @@ if ($play) {
 
         $contains.add($c, $selected) 
     }
-    
-    if ($taken -eq "") {
-        $wordsfile | where-object { $_.vowels -ge 4 }
-    } else {
-        $letter=@{}
-        [char[]]"$taken" | foreach-object {
-            $c=[string]$_
-            $letter.add($c, $true) 
-        }
-        $contains.Key | ForEach-Object {
-            if (!$letter.contains([string]$_.Key)) {
-                $contains[[string]$_.Key]
-            }
-        }
 
-    }
+    
+
+    # find letters
+    $list = ($wordsfile | where-object { 
+        $_.letter.PSobject.Properties.name -eq [string]'o' -and 
+        (($_.letter.PSobject.Properties.name -match "i").length -eq 0) -and
+        (($_.letter.PSobject.Properties.name -match "h").length -eq 0) -and
+        (($_.letter.PSobject.Properties.name -match "s").length -eq 0) -and
+        (($_.letter.PSobject.Properties.name -match "d").length -eq 0) -and
+        (($_.letter.PSobject.Properties.name -match "a").length -eq 0) -and
+        (($_.letter.PSobject.Properties.name -match "e").length -eq 0) -and
+        (($_.letter.PSobject.Properties.name -match "c").length -eq 0) -and
+        (($_.letter.PSobject.Properties.name -match "k").length -eq 0) -and
+        (($_.letter.PSobject.Properties.name -match "y").length -eq 0) -and
+        (($_.letter.PSobject.Properties.name -match "u").length -eq 0) 
+    })
+    $list 
+
+    ($list | foreach-object {
+        $current=$_.word
+        if (
+            ($current[1] -eq [string]"o") -and 
+            ($current[0] -eq [string]"r")) {
+            $current
+        }
+    })
+
+    # if ($taken -eq "") {
+    #     $wordsfile | where-object { $_.vowels -ge 4 }
+    # } else {
+    #     $letter=@{}
+    #     [char[]]"$taken" | foreach-object {
+    #         $c=[string]$_
+    #         $letter.add($c, $true) 
+    #     }
+    #     $contains.Key | ForEach-Object {
+    #         if (!$letter.contains([string]$_.Key)) {
+    #             $contains[[string]$_.Key]
+    #         }
+    #     }
+
+    # }
+
+
+
 
 
     #$contains 
