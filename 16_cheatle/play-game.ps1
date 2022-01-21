@@ -15,9 +15,22 @@ Show help
 
 . ./play-game.ps1      
 $words = load-words -path "./5letterwordsdoubles.txt"
-first-words -words $words 
+$first = first-words -words $words 
+$first
+calculate_ratios -words $words -selected $first | sort-object WordCount
+
+$next = next-words -words $words -taken "oue" -contains "ri"
+calculate_ratios -words $words -selected $next | sort-object WordCount
+
+$next = next-words -words $words -taken "ouelas" -contains "ri"
+calculate_ratios -words $words -selected $next | sort-object WordCount
+
+$next = next-words -words $words -taken "ouelasnt" -position "pri.*" -contains "pri"
+calculate_ratios -words $words -selected $next | sort-object WordCount
+
 next-words -words $words -taken "audio"
 next-words -words $words -taken "audihusecky" -position "^r.*"
+
 
 #>
 param(
@@ -64,6 +77,25 @@ function load-words([string]$path) {
     return $words 
 }
 
+function calculate_ratios {
+    param(
+        [Parameter(Mandatory=$true)]$words,
+        [Parameter(Mandatory=$true)]$selected
+    )
+
+    $selected | foreach-object {
+        $word = $_
+        $wordcount = 0 
+        $word.letter.PSobject.Properties.name | foreach-object {
+            $c=[string]$_
+
+            $wordcount += [int]$words.containing_letters[$c].Count 
+        } 
+        add-member -inputobject $word -membertype NoteProperty -Name "WordCount" -Value $wordcount -Force
+        $word
+    }
+
+}
 function first-words($words) {
     $words.all_words | where-object { $_.vowels -ge 4 }
 }
@@ -72,6 +104,7 @@ function next-words {
     param(
         [Parameter(Mandatory=$true)]$words,
         [Parameter(Mandatory=$true)][string]$taken,
+        [Parameter(Mandatory=$true)][string]$contains,
         [Parameter(Mandatory=$false)][string]$position=".*"
     )
     $list = ($words.all_words | where-object { 
@@ -84,7 +117,16 @@ function next-words {
             }
         }
         if ($valid) {
-            $word
+            $found=$true
+            [char[]]"$contains" | foreach-object {
+                $c=[string]$_
+                if (($word.letter.PSobject.Properties.name -match $c).length -eq 0) {
+                    $found = $false
+                }
+            }
+            if ($found) {
+                $word
+            }
         }
     })
     $list | where-object { $_.word | select-string -pattern $position } 
