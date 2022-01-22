@@ -47,8 +47,9 @@ write-host $profile
 /Users/$env:USER/.config/powershell/Microsoft.PowerShell_profile.ps1
 
 cp *_profile.ps1 ~/.config/powershell/
-cp ./powerlevel10k_chrisguest.omp.json $(brew --prefix oh-my-posh)/themes 
-cp ./powerline_chrisguest.omp.json $(brew --prefix oh-my-posh)/themes 
+
+cp ./chrisguest.omp.json ~/.oh-my-posh/themes/
+#cp ./chrisguest.omp.json $(brew --prefix oh-my-posh)/themes 
 
 ```
 
@@ -62,13 +63,14 @@ get-childitem
 
 ## Fix Colours
 
+My standard solarised shell hides parameters.  Some default powershell colours need to be changed.  
+
 ```ps1
 Set-PSReadLineOption -Colors @{
     "Operator" = [ConsoleColor]::Magenta;
     "Parameter" = [ConsoleColor]::Magenta
 }
 ```
-
 
 ## Resources
 

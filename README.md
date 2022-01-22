@@ -4,14 +4,14 @@ Powershell examples.
 
 TODO:
 
-* interesting libraries (git)
-* ssh and remoting.
+* interesting libraries (git) https://www.powershellgallery.com/packages/PowerGit/0.9.0
 * Create juypter example
 * Plaster
 * ScriptAnalyser
 * NPM package example
-* Logging
+* Logging https://github.com/PoShLog/PoShLog
 * $isDotSourced = $MyInvocation.InvocationName -eq '.' -or $MyInvocation.Line -eq ''
+
 
 ## Install
 
@@ -83,6 +83,12 @@ Steps [README.md](./10_awsbatch/README.md)
 
 Configure SSH Remoting in Powershell.  
 Steps [README.md](./12_remoting/README.md)  
+
+
+## 17 - oh-my-posh
+
+Demonstrate some `oh-my-posh` basics
+Steps [README.md](./17_ohmyposh/README.md)  
 
 ## Resources
 

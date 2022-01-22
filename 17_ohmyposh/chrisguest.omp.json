@@ -15,18 +15,29 @@
           }
         },
         {
+          "type": "session",
+          "style": "diamond",
+          "foreground": "#eee8d5",
+          "background": "#dc322f",
+          "properties": {
+            "template": "{{ .UserName }}"
+          }
+        },        
+        {
           "type": "root",
           "style": "plain",
-          "foreground": "#eee8d5",
-          "background": "#dc322f"
+          "foreground": "#002b36",
+          "background": "#268bd2"
         },
         {
           "type": "path",
           "style": "plain",
-          "foreground": "#eee8d5",
-          "background": "#dc322f",
+          "foreground": "#002b36",
+          "background": "#268bd2",
           "properties": {
-            "style": "full"
+            "prefix": "<#eee8d5>\uE0B1 </>",
+            "style": "folder",
+            "max_depth": 3
           }
         },
         {
@@ -56,17 +67,6 @@
       "type": "prompt",
       "alignment": "right",
       "segments": [
-        {
-          "type": "session",
-          "style": "diamond",
-          "foreground": "#D4E157",
-          "background": "#546E7A",
-          "leading_diamond": "\uE0B2",
-          "properties": {
-            "postfix": " <#26C6DA>\uE0B3</> ",
-            "template": "{{ .UserName }}@{{ .HostName }}"
-          }
-        },
         {
           "type": "time",
           "style": "plain",
