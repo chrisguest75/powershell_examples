@@ -22,8 +22,9 @@ Get-ECSTaskDefinitionList
 
 (Get-ECSTaskDetail -Cluster "arn:aws:ecs:us-east-1:accountid:cluster/cluster"  -Task "arn:aws:ecs:us-east-1:accountid:task/containerinstance").Failures
 
- (Get-ECSContainerInstanceDetail -cluster "arn:aws:ecs:us-east-1:accountid:cluster/cluster"  -ContainerInstance  arn:aws:ecs:us-east-1:accountid:container-instance/containerinstance).Failures
+(Get-ECSContainerInstanceDetail -cluster "arn:aws:ecs:us-east-1:accountid:cluster/cluster"  -ContainerInstance  arn:aws:ecs:us-east-1:accountid:container-instance/containerinstance).Failures
 
+Get-ECSTaskDetail -Task "arn:aws:ecs:region:account:task/id"
 
 #>
 param(

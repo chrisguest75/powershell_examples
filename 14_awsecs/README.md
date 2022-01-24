@@ -6,13 +6,7 @@ Demonstrate using the official AWS Powershell Module for Batch
 
 ```ps1
 . ./.env.ps1   
-./show-queues.ps1  
-
-./troubleshoot-batch.ps1 -showqueues
-./troubleshoot-batch.ps1 -jobs -queue queuename
-
-(./troubleshoot-batch.ps1 -jobdetails -jobid  c5247910-255d-462c-a797-18a651fd0197).Attempts[0].Container
-
+./troubleshoot-ecs.ps1 -showclusters
 ```
 
 ## Installation
@@ -30,6 +24,15 @@ Find-Command -ModuleName "AWS.Tools.ECS"
 
 # sorted by name
 Find-Command -ModuleName "AWS.Tools.ECS" | sort-object Name
+
+
+# list organisations 
+Find-Module  -Name "AWS.Tools.Organizations*"
+Install-Module  -Name "AWS.Tools.Organizations"
+Get-ORGRoot 
+Get-ORGAccountList
+
+Get-ECSTaskDetail -Task "arn:aws:ecs:region:account:task/id"
 ```
 
 ## Configure AWS
