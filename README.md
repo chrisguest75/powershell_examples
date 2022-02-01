@@ -100,10 +100,18 @@ Steps [README.md](./19_scriptanalyser/README.md)
 Use `pode` to build a simple webserver.  
 Steps [README.md](./20_pode/README.md)  
 
+## 20 - AST
+
+Demonstrate use to parser and AST on scripts.  
+Steps [README.md](./21_ast/README.md)  
+
+## 22 - dotnet
+
+Demonstrate using dotnet core libraries  
+Steps [README.md](./22_dotnet/README.md)  
+
 ## Resources
 
 * Official product documentation for PowerShell [here](https://docs.microsoft.com/en-us/powershell/)
 * adamdriscoll/awesome-powershell repo [here](https://github.com/adamdriscoll/awesome-powershell)
 * `cheatsheet powershell`
-
-
