@@ -90,6 +90,11 @@ Steps [README.md](./12_remoting/README.md)
 Demonstrate some `oh-my-posh` basics
 Steps [README.md](./17_ohmyposh/README.md)  
 
+## 20 - pode webserver
+
+Use `pode` to build a simple webserver.  
+Steps [README.md](./20_pode/README.md)  
+
 ## Resources
 
 * adamdriscoll/awesome-powershell repo [here](https://github.com/adamdriscoll/awesome-powershell)
