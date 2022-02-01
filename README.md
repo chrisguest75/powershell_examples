@@ -90,6 +90,11 @@ Steps [README.md](./12_remoting/README.md)
 Demonstrate some `oh-my-posh` basics
 Steps [README.md](./17_ohmyposh/README.md)  
 
+## 19 - PSScriptAnalyzer
+
+Demonstrate use of `PSScriptAnalyzer` to lint code.  
+Steps [README.md](./19_scriptanalyser/README.md)  
+
 ## 20 - pode webserver
 
 Use `pode` to build a simple webserver.  
