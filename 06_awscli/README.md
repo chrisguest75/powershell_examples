@@ -93,3 +93,6 @@ $logs.events
 
 ## Resources
 
+* describe-container-instances [here](https://docs.aws.amazon.com/cli/latest/reference/ecs/describe-container-instances.html)
+
+https://www.sheldonhull.com/docs/powershell/#aws-powershell-specific-cheatsheets

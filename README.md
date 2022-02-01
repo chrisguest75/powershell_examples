@@ -102,5 +102,8 @@ Steps [README.md](./20_pode/README.md)
 
 ## Resources
 
+* Official product documentation for PowerShell [here](https://docs.microsoft.com/en-us/powershell/)
 * adamdriscoll/awesome-powershell repo [here](https://github.com/adamdriscoll/awesome-powershell)
 * `cheatsheet powershell`
+
+
