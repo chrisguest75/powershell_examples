@@ -79,6 +79,16 @@ Steps [README.md](./08_iterate_folders/README.md)
 Demonstrate using the official AWS Powershell Module for Batch  
 Steps [README.md](./10_awsbatch/README.md)  
 
+## 10 - awsecs
+
+Demonstrate using the official AWS Powershell Module for ECS  
+Steps [README.md](./10_awsecs/README.md)  
+
+## 11 - logging
+
+Demonstrate logging libraries for Powershell  
+Steps [README.md](./11_logging/README.md)  
+
 ## 12 - remoting
 
 Configure SSH Remoting in Powershell.  

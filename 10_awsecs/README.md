@@ -1,6 +1,6 @@
 # README
 
-Demonstrate using the official AWS Powershell Module for Batch
+Demonstrate using the official AWS Powershell Module for ECS
 
 ## Run Show-Queues
 
