@@ -1,6 +1,6 @@
 # README
 
-Use pode to build a simple webserver.  
+Use `pode` to build a simple webserver.  
 
 ## Create
 
