@@ -37,11 +37,11 @@ if(($help -eq $true) -or ($showhelp -eq $true))
 
 $modes = @("standard", "enhanced")
 
-$basepath="/Users/chris.guest/Code/scratch/ffmpeg_examples/"
+#$basepath="/Users/chris.guest/Code/scratch/ffmpeg_examples/"
 $outputpath = "./out"
 $files = @("sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_chrismusisacomin_dunbar_jf_64kb.mp3", "sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_thechristmaspresent_crompton_vg_64kb.mp3")
 $newfile = "english_chrismusisacomin_dunbar_jf_64kb"
-$samplerates = @("22000", "16000", "12000", "8000", "4000")
+$samplerates = @("22050", "16000", "12000", "8000")
 $bitrates = @("64000", "32000", "16000")
 $codecs = @("m4a", "mp3", "flac")
 
@@ -52,7 +52,8 @@ function Create-ConversionScript {
     foreach ($file in $files) {
         $audio_file = Join-Path $basepath $file
         $output = Join-Path $outputpath ($newfile + ".json")
-        ffprobe -v error -show_format -show_streams -print_format json $audio_file | jq . > $output
+        $line = "ffprobe -v error -show_format -show_streams -print_format json $audio_file | jq . > $output"
+        write-output $line
     
         foreach ($samplerate in $samplerates) {
             foreach ($bitrate in $bitrates) {
