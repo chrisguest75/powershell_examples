@@ -7,10 +7,11 @@ TODO:
 * interesting libraries (git) https://www.powershellgallery.com/packages/PowerGit/0.9.0
 * Create juypter example
 * Plaster
-* ScriptAnalyser
-* NPM package example
-* Logging https://github.com/PoShLog/PoShLog
+* NPM package example - using from typescript
 * $isDotSourced = $MyInvocation.InvocationName -eq '.' -or $MyInvocation.Line -eq ''
+* -passthru
+* fix help for about_
+* error handling
 
 
 ## Install
