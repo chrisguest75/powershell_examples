@@ -24,6 +24,11 @@ cls -> Clear-Host
 ############################################################
 # Help 
 ############################################################
+sudo pwsh  
+Update-Help -Module Microsoft.PowerShell* -Verbose
+Get-Module -ListAvailable     
+
+
 update-help
 get-help *
 get-help get-help
@@ -49,6 +54,8 @@ get-help * -category alias
 # Piping
 ############################################################
 gps | where ProcessName -eq "zsh" | sort-object -Property Id -Descending
+# format table
+gps | where ProcessName -eq "zsh" | sort-object -Property Id -Descending | format-table -autosize
 ```
 
 ## Type Conversion
@@ -59,6 +66,7 @@ gps | where ProcessName -eq "zsh" | sort-object -Property Id -Descending
 ############################################################
 [psobject].assembly.gettype("System.Management.Automation.TypeAccelerators")::Get
 [int]"not an int“
+[float]"32.4"
 ```
 
 ## Reflection
