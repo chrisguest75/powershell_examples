@@ -43,7 +43,7 @@ pipenv install jupyter
 jupyter notebook
 
 # open the notebook
-open http://localhost:8888/notebooks/First%20Notebook.ipynb#
+http://127.0.0.1:8888/notebooks/books/Powershell%20Book.ipynb
 ```
 
 ## Add a kernel (csharp & powershell)
@@ -70,6 +70,11 @@ docker exec -it $(docker ps --filter name=jupytercsharp -q) /bin/bash
 
 ## Using AWS Modules in a runbook
 
+```sh
+# open the notebook (requires token)
+http://127.0.0.1:8888/notebooks/books/AWSBatch.ipynb
+http://127.0.0.1:8888/notebooks/books/AWSECS.ipynb#
+```
 
 ## Resources
 
