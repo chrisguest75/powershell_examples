@@ -54,16 +54,22 @@ docker build --no-cache -t jupytercsharp -f Dockerfile.csharp .
 docker build --progress=plain --no-cache -t jupytercsharp -f Dockerfile.csharp .
 
 docker run --name jupytercsharp --rm -d -p 8888:8888 jupytercsharp  
-docker run -v $(pwd)/books:/workbench/books --name jupytercsharp --rm -d -p 8888:8888 jupytercsharp  
+docker run -v $(pwd)/books:/workbench/books -v /Users/chris.guest/.aws:/home/root/.aws --name jupytercsharp --rm -d -p 8888:8888 jupytercsharp  
 
-# get the token 
+# get the token and local url
 docker logs jupytercsharp
 
 # stop 
 docker stop jupytercsharp
 
 docker run --rm -it --name jupytercsharp --entrypoint "/bin/bash" -p 8888:8888 jupytercsharp
+
+# debugging
+docker exec -it $(docker ps --filter name=jupytercsharp -q) /bin/bash 
 ```
+
+## Using AWS Modules in a runbook
+
 
 ## Resources
 
