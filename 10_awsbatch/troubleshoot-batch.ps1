@@ -82,7 +82,19 @@ function Show-JobDetails([string]$jobid="") {
 }
 
 function Show-Logs([string]$logstream="") {
-    (Get-CWLLogEvent -LogGroupName "/aws/batch/job" -LogStreamName $logstream).Events  
+    $logs = (Get-CWLLogEvent -StartFromHead $true -LogGroupName "/aws/batch/job" -LogStreamName $logstream)
+    $logs.Events
+    $token = $logs.NextForwardToken
+    while($token -ne "") { 
+        $logs = (Get-CWLLogEvent -StartFromHead $true -NextToken $token -LogGroupName "/aws/batch/job" -LogStreamName $logstream)
+        if ($token -ne $logs.NextForwardToken) {
+            $token = $logs.NextForwardToken
+            #write-host $token
+        } else {
+            $token = ""
+        }
+        $logs.Events
+    }
 }
 
 #***********************************************************************************************************

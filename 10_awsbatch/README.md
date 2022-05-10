@@ -30,6 +30,8 @@ $logstream=(./troubleshoot-batch.ps1 -jobdetails -jobid $jobid).Attempts[2].Cont
 
 # pull logs for logstream
 ./troubleshoot-batch.ps1 -logs -logstream $logstream
+# export the logs to a file
+./troubleshoot-batch.ps1 -logs -logstream $logstream | Export-Csv -Path ./failed-media.txt -NoTypeInformation     
 
 # group failures by field
 (./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | sort-object "uid" | Group-Object "uid"
@@ -39,6 +41,40 @@ $logstream=(./troubleshoot-batch.ps1 -jobdetails -jobid $jobid).Attempts[2].Cont
 (./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.toString("yyyy-MM-dd")}} | Group-Object "DoY" | select-object count,name  
 # group the failures by hours
 (./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.toString("yyyy-MM-dd-hh")}} | Group-Object "DoY" | select-object count,name 
+```
+
+## Exporting logs
+
+```ps1
+$baseDir = "out"
+New-Item -Path "." -Name $baseDir -ItemType "directory" -Force
+
+# get logstreams for failed jobs
+$streams = (./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | select-object -Last 20 | % { 
+    $logstream = (./troubleshoot-batch.ps1 -jobdetails -jobid $_.JobId).Attempts[2].Container.LogStreamName
+    [PSCustomObject]@{
+        LogStream=$logstream
+        JobId=$_.jobid
+    }
+} 
+
+# export logs for failed jobs
+$streams | % {
+    $outfile = Join-Path $baseDir ($_.JobId) ($_.JobId + ".txt")
+    New-Item -Path $baseDir -Name ($_.JobId) -ItemType "directory" -Force
+    (./troubleshoot-batch.ps1 -logs -logstream $_.LogStream | Export-Csv -Path $outfile -NoTypeInformation)    
+}
+
+# export other job data bits
+$streams | % {
+    New-Item -Path $baseDir -Name ($_.JobId) -ItemType "directory" -Force
+    $outfile = Join-Path $baseDir ($_.JobId) ($_.JobId + ".config")
+    (./troubleshoot-batch.ps1 -jobdetails -jobid $_.JobId).Container.Environment | Export-Csv -Path $outfile -NoTypeInformation   
+    $outfile = Join-Path $baseDir ($_.JobId) ($_.JobId + ".container")
+    (./troubleshoot-batch.ps1 -jobdetails -jobid $_.JobId).Container | convertto-json -depth 100 | set-content  $outfile
+    $outfile = Join-Path $baseDir ($_.JobId) ($_.JobId + ".job")
+    (./troubleshoot-batch.ps1 -jobdetails -jobid $_.JobId) | convertto-json -depth 100 | set-content  $outfile
+}
 ```
 
 ## Installation
@@ -83,6 +119,17 @@ Get-CWLLogEvent -LogGroupName "/aws/batch/job" -LogStreamNamePrefix "logstream/d
 
 # get out of memory failures
 ./troubleshoot-batch.ps1 -jobs -queue $queuename | where { if ($null -ne $_.Reason) {$_.Reason.StartsWith("OutOfMemoryError")} else { return False} } | select JobId | % { (Get-BATJobDetail -Job $_.JobId).Container.Environment.Value}
+```
+
+## Cloudwatch Metrics
+
+This is not working
+
+```ps1
+Install-Module -Name "AWS.Tools.CloudWatch"  
+Find-Command -ModuleName "AWS.Tools.CloudWatch"  
+Import-Module "AWS.Tools.CloudWatch"  
+
 ```
 
 ## Resources  

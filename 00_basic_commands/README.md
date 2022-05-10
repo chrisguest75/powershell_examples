@@ -190,6 +190,11 @@ for($index = 0; $index -lt $array.Length; $index++)
 {
 write-host $array[$index]
 }
+
+$continue=$true
+while($continue -eq $true) { 
+write-host $continue
+}
 ```
 
 ## External scripts and dotsourcing
@@ -331,6 +336,15 @@ get-help check-length -detailed
 ############################################################
 #http://blogs.msdn.com/b/powershell/archive/2006/11/24/what-s-up-with-psbase-psextended-psadapted-and-psobject.aspx
 cls 
+
+############################################################
+# Demonstrate Custom Types 
+############################################################
+
+$myObject = [PSCustomObject]@{
+    field1="field1"
+    field2="field2"
+}
 
 ############################################################
 # Demonstrate Custom Types 
