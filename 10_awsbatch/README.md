@@ -1,10 +1,11 @@
 # README
 
-Demonstrate using the official AWS Powershell Module for Batch
+Demonstrate using the official AWS Powershell Module for Batch to diagnose failed jobs and grab logstreams.  
 
 ## Run Show-Queues
 
 ```ps1
+# you'll need to auth with AWS first
 . ./.env.ps1   
 ./show-queues.ps1  
 ```
@@ -12,12 +13,32 @@ Demonstrate using the official AWS Powershell Module for Batch
 ## Troubleshoot batch
 
 ```ps1
+# show the queue names
 . ./.env.ps1   
 ./troubleshoot-batch.ps1 -showqueues
-./troubleshoot-batch.ps1 -jobs -queue queuename
 
-(./troubleshoot-batch.ps1 -jobdetails -jobid  c5247910-255d-462c-a797-18a651fd0197).Attempts[0].Container
+# list all failed jobs on the queue
+$queuename="my-queuename"
+./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED" 
 
+# get logs for failed job
+$jobid="jobid"
+./troubleshoot-batch.ps1 -jobdetails -jobid $jobid 
+
+# get attempt 2 logstream
+$logstream=(./troubleshoot-batch.ps1 -jobdetails -jobid $jobid).Attempts[2].Container.LogStreamName
+
+# pull logs for logstream
+./troubleshoot-batch.ps1 -logs -logstream $logstream
+
+# group failures by field
+(./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | sort-object "uid" | Group-Object "uid"
+
+# group the failures by days
+(./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.DayOfYear}} | Group-Object "DoY"  
+(./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.toString("yyyy-MM-dd")}} | Group-Object "DoY" | select-object count,name  
+# group the failures by hours
+(./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.toString("yyyy-MM-dd-hh")}} | Group-Object "DoY" | select-object count,name 
 ```
 
 ## Installation
@@ -66,5 +87,6 @@ Get-CWLLogEvent -LogGroupName "/aws/batch/job" -LogStreamNamePrefix "logstream/d
 
 ## Resources  
 
-* aws/aws-tools-for-powershell repo [here](https://github.com/aws/aws-tools-for-powershell)
-* AWS Tools for PowerShell - Installation [here](https://docs.aws.amazon.com/powershell/latest/reference/Index.html)
+* aws/aws-tools-for-powershell repo [here](https://github.com/aws/aws-tools-for-powershell)  
+* AWS Tools for PowerShell - Installation [here](https://docs.aws.amazon.com/powershell/latest/reference/Index.html)  
+* Job definition parameters [here](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html)  

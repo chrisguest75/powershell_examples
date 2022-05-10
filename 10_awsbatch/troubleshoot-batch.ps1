@@ -71,6 +71,9 @@ function Show-Jobs([string]$queue="", [string]$jobstatus="FAILED") {
     },@{
         label='id'
         expression={ $_.JobName.substring(25, 22)}
+    },@{
+        label='uid'
+        expression={ $_.JobName.substring(0, 24)}
     }
 }
 
