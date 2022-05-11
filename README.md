@@ -17,16 +17,36 @@ TODO:
 ## Install
 
 ```sh
+# current version
+brew info powershell 
+
 # install
 brew install powershell
+
+# upgrade
+brew upgrade powershell
 ```
 
 ```sh
 # open shell
 pwsh
+
+# check versions
+$psversiontable
+
+# list the currently installed modules.
+Get-InstalledModule
+Get-Module -ListAvailable   
+
+# Troubleshooting
+# if modules are failing to load and you already have the modules installed try upgrading them.
+Update-AWSToolsModule  
 ```
 
+## Enable brew
+
 ```ps1
+# add brew support to powershell
 Add-Content -Path $PROFILE.CurrentUserAllHosts -Value '$(/usr/local/bin/brew shellenv) | Invoke-Expression'
 ```
 
@@ -94,7 +114,6 @@ Steps [README.md](./11_logging/README.md)
 
 Configure SSH Remoting in Powershell.  
 Steps [README.md](./12_remoting/README.md)  
-
 
 ## 17 - oh-my-posh
 
