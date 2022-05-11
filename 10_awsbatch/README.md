@@ -2,10 +2,22 @@
 
 Demonstrate using the official AWS Powershell Module for Batch to diagnose failed jobs and grab logstreams.  
 
+## Install & Configure
+
+```sh
+# install macoxs
+brew install powershell
+
+# linux (should be in standard package provider)
+
+# open shell
+pwsh   
+```
+
 ## Run Show-Queues
 
 ```ps1
-# you'll need to auth with AWS first
+# you'll need to auth with AWS first, copy and edit the .env.template.ps1 file.
 . ./.env.ps1   
 ./show-queues.ps1  
 ```
@@ -40,42 +52,27 @@ $logstream=(./troubleshoot-batch.ps1 -jobdetails -jobid $jobid).Attempts[2].Cont
 (./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.DayOfYear}} | Group-Object "DoY"  
 (./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.toString("yyyy-MM-dd")}} | Group-Object "DoY" | select-object count,name  
 # group the failures by hours
-(./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.toString("yyyy-MM-dd-hh")}} | Group-Object "DoY" | select-object count,name 
+((./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.toString("yyyy-MM-dd-hh")}} | Group-Object "DoY" | select-object count,name)
 ```
 
 ## Exporting logs
 
 ```ps1
-$baseDir = "out"
-New-Item -Path "." -Name $baseDir -ItemType "directory" -Force
-
-# get logstreams for failed jobs
-$streams = (./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | select-object -Last 20 | % { 
-    $logstream = (./troubleshoot-batch.ps1 -jobdetails -jobid $_.JobId).Attempts[2].Container.LogStreamName
-    [PSCustomObject]@{
-        LogStream=$logstream
-        JobId=$_.jobid
-    }
-} 
-
-# export logs for failed jobs
-$streams | % {
-    $outfile = Join-Path $baseDir ($_.JobId) ($_.JobId + ".txt")
-    New-Item -Path $baseDir -Name ($_.JobId) -ItemType "directory" -Force
-    (./troubleshoot-batch.ps1 -logs -logstream $_.LogStream | Export-Csv -Path $outfile -NoTypeInformation)    
-}
-
-# export other job data bits
-$streams | % {
-    New-Item -Path $baseDir -Name ($_.JobId) -ItemType "directory" -Force
-    $outfile = Join-Path $baseDir ($_.JobId) ($_.JobId + ".config")
-    (./troubleshoot-batch.ps1 -jobdetails -jobid $_.JobId).Container.Environment | Export-Csv -Path $outfile -NoTypeInformation   
-    $outfile = Join-Path $baseDir ($_.JobId) ($_.JobId + ".container")
-    (./troubleshoot-batch.ps1 -jobdetails -jobid $_.JobId).Container | convertto-json -depth 100 | set-content  $outfile
-    $outfile = Join-Path $baseDir ($_.JobId) ($_.JobId + ".job")
-    (./troubleshoot-batch.ps1 -jobdetails -jobid $_.JobId) | convertto-json -depth 100 | set-content  $outfile
-}
+./export-jobs.ps1 -queue $queuename -export
 ```
+
+## Build a table
+
+Summarise Success and Failure for each queue  
+
+### Prod US  
+
+```ps1
+$env:AWS_REGION="us-east-1"      
+# transcode queues
+./generate-job-summaries.ps1 -generate -queues $queuename1,$queuename2
+```
+
 
 ## Installation
 
@@ -93,6 +90,13 @@ Find-Command -ModuleName "AWS.Tools.Batch"
 
 # sort functions by name
 Find-Command -ModuleName "AWS.Tools.Common" | sort-object Name
+```
+
+## Troubleshooting
+
+```sh
+# if modules are failing to load and you already have the modules installed try upgrading them.
+Update-AWSToolsModule  
 ```
 
 ## Configure AWS

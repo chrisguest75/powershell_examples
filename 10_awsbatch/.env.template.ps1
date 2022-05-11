@@ -1,6 +1,6 @@
 $env:AWS_PROFILE=""
 $env:AWS_REGION=""
-$env:MONGOCONNECTION=""
+$env:MONGOCONNECTION="mongodb+srv://..."
 
 #Get-AWSCredential
 Set-AWSCredential -ProfileName $env:AWS_PROFILE
