@@ -96,9 +96,9 @@ function PrimeFactors([int]$compositevalue)
 #** Exports
 #***************************************************************************************************************
 
-export-modulemember -function IsPrime
-export-modulemember -function NextPrime
-export-modulemember -function IsPalindrome
-export-modulemember -function PrimeFactors
+#export-modulemember -function IsPrime
+#export-modulemember -function NextPrime
+#export-modulemember -function IsPalindrome
+#export-modulemember -function PrimeFactors
 
 #***************************************************************************************************************
