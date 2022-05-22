@@ -1,6 +1,6 @@
 # README
 
-Demonstate using `trint` live API
+Demonstate using `trint` live API  
 
 ```ps1
 . ./.env.ps1 

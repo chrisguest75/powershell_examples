@@ -5,7 +5,6 @@ Powershell examples.
 TODO:
 
 * interesting libraries (git) https://www.powershellgallery.com/packages/PowerGit/0.9.0
-* Create juypter example
 * Plaster
 * NPM package example - using from typescript
 * $isDotSourced = $MyInvocation.InvocationName -eq '.' -or $MyInvocation.Line -eq ''
@@ -95,6 +94,11 @@ Steps [README.md](./07_string_generation/README.md)
 Demonstrate iterating over files and directories  
 Steps [README.md](./08_iterate_folders/README.md)  
 
+## 09 - Jupyter
+
+Demonstrate how to get a `jupyter` server running  
+Steps [README.md](./09_jupyter/README.md)  
+
 ## 10 - awsbatch
 
 Demonstrate using the official AWS Powershell Module for Batch  
@@ -139,6 +143,12 @@ Steps [README.md](./21_ast/README.md)
 
 Demonstrate using dotnet core libraries  
 Steps [README.md](./22_dotnet/README.md)  
+
+## 24 - trint apis
+
+Demonstate using `trint` live API  
+Steps [README.md](./24_trint_apis/README.md)  
+
 
 ## Resources
 
