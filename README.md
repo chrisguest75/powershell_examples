@@ -149,9 +149,10 @@ Steps [README.md](./22_dotnet/README.md)
 Demonstate using `trint` live API  
 Steps [README.md](./24_trint_apis/README.md)  
 
-
 ## Resources
 
 * Official product documentation for PowerShell [here](https://docs.microsoft.com/en-us/powershell/)
 * adamdriscoll/awesome-powershell repo [here](https://github.com/adamdriscoll/awesome-powershell)
 * `cheatsheet powershell`
+* PowerShell/PowerShell repo [here](https://github.com/PowerShell/PowerShell)
+
