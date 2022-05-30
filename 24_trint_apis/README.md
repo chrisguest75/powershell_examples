@@ -6,7 +6,11 @@ Demonstate using `trint` live API
 . ./.env.ps1 
 ```
 
-## Quick start
+## Live
+
+Use the live features to transcribe.  
+
+### Quick start (live)
 
 Creating a realtime using pull.  
 
@@ -19,7 +23,7 @@ Creating a realtime using pull.
 ./trint-realtime.ps1 -export -trintid M8z041GabcdefxxxMg
 ```
 
-## Start a pull
+### Start a pull
 
 ```ps1
 $trintid=(./trint-realtime.ps1 -pull -title "anothertest" )._id
@@ -30,7 +34,7 @@ curl (./trint-realtime.ps1 -export -trintid $trintid -format text).url
 ./trint-realtime.ps1 -stop -trintid $trintid
 ```
 
-## Start a push
+### Start a push
 
 ```ps1
 ./trint-realtime.ps1 -push
@@ -46,6 +50,21 @@ ffmpeg -re -i https://nhkworld.webcdn.stream.ne.jp/www11/nhkworld-tv/global/2003
 ./trint-realtime.ps1 -export -trintid $push.trintId
 curl (./trint-realtime.ps1 -export -trintid $push.trintId -format text).url
 ./trint-realtime.ps1 -stop -trintid $push.trintId
+```
+
+## Batch
+
+### Quick start (batch)
+
+Creating a batch transcription  
+
+```ps1
+# upload files
+$trintId=(./trint-batch.ps1 -upload -file "english.mp3"  -language "en" -title "english test").trintId
+
+write-host "trintid:$trintId"
+
+curl (./trint-batch.ps1 -export -trintid $trintId -format text).url
 ```
 
 ## Resources
