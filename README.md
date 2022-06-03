@@ -122,7 +122,7 @@ Steps [README.md](./12_remoting/README.md)
 
 ## 17 - oh-my-posh
 
-Demonstrate some `oh-my-posh` basics
+Demonstrate some `oh-my-posh` basics.  
 Steps [README.md](./17_ohmyposh/README.md)  
 
 ## 19 - PSScriptAnalyzer
