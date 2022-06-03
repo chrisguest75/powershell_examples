@@ -1,8 +1,10 @@
 # README
 
+[![Repository](https://skillicons.dev/icons?i=powershell,docker,linux)](https://skillicons.dev)
+
 Powershell examples.
 
-TODO:
+📝 TODO:
 
 * interesting libraries (git) https://www.powershellgallery.com/packages/PowerGit/0.9.0
 * Plaster
@@ -12,8 +14,7 @@ TODO:
 * fix help for about_
 * error handling
 
-
-## Install
+## 📋 Prereqs
 
 ```sh
 # current version
@@ -42,7 +43,7 @@ Get-Module -ListAvailable
 Update-AWSToolsModule  
 ```
 
-## Enable brew
+## 🏠 Enable brew
 
 ```ps1
 # add brew support to powershell
@@ -149,7 +150,7 @@ Steps [README.md](./22_dotnet/README.md)
 Demonstate using `trint` live API  
 Steps [README.md](./24_trint_apis/README.md)  
 
-## Resources
+## 👀 Resources
 
 * Official product documentation for PowerShell [here](https://docs.microsoft.com/en-us/powershell/)
 * adamdriscoll/awesome-powershell repo [here](https://github.com/adamdriscoll/awesome-powershell)
