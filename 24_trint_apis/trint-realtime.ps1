@@ -27,6 +27,7 @@ param(
     [Parameter(Mandatory=$false)][switch]$export=$false,
     [Parameter(Mandatory=$false)][string]$format="json",
     [Parameter(Mandatory=$false)][string]$trintid="",
+    [Parameter(Mandatory=$false)][string]$streamUrl="https://nhkwlive-xjp.akamaized.net/hls/live/2003458/nhkwlive-xjp-en/index_1M.m3u8",
     [Parameter(Mandatory=$false)][string]$title="apitest"
 )
 
@@ -63,7 +64,7 @@ if ($pull) {
     $headers.Add("Accept", "application/json")
     $headers.Add("api-key", "$env:TRINT_APIKEY")
     $headers.Add("Content-Type", "application/json")
-    $source = "https://nhkwlive-xjp.akamaized.net/hls/live/2003458/nhkwlive-xjp-en/index_1M.m3u8"
+    $source = $streamUrl
     $body = '{"language":"en","streamUrl":"' + $source + '","transcriptDelay":"5","title":"' + $title + '"}'
     $url = $env:TRINT_BASEAPI + '/transcripts/realtime'
     

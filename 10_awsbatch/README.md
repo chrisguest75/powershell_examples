@@ -53,6 +53,32 @@ $logstream=(./troubleshoot-batch.ps1 -jobdetails -jobid $jobid).Attempts[2].Cont
 (./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.toString("yyyy-MM-dd")}} | Group-Object "DoY" | select-object count,name  
 # group the failures by hours
 ((./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | Select-Object *,@{Name="DoY";Expression={$_.createdAt.toString("yyyy-MM-dd-hh")}} | Group-Object "DoY" | select-object count,name)
+
+
+$failed = ((./troubleshoot-batch.ps1 -jobs -queue $queuename -status "FAILED") | where {($_.createdAt -gt (get-date 2022-05-11))})
+
+$success = ((./troubleshoot-batch.ps1 -jobs -queue $queuename -status "SUCCEEDED") | where {($_.createdAt -gt (get-date 2022-05-11))})
+$retrybuckets = [PSCustomObject]@{
+            one = 0 
+            two = 0 
+            three = 0 
+        }
+
+$retries = ($success | % {
+    $jobid = $_.JobId
+    if (((./troubleshoot-batch.ps1 -jobdetails -jobid $jobid).Attempts).Container.Length -eq 1) {
+        $retrybuckets.one += 1
+    }
+    if (((./troubleshoot-batch.ps1 -jobdetails -jobid $jobid).Attempts).Container.Length -eq 2) {
+        $retrybuckets.two += 1
+        $_
+    }
+    if (((./troubleshoot-batch.ps1 -jobdetails -jobid $jobid).Attempts).Container.Length -ge 3) {
+        $retrybuckets.three += 1
+        $_
+    }
+})
+$retrybuckets
 ```
 
 ## Exporting logs

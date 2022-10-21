@@ -17,6 +17,9 @@ Creating a realtime using pull.
 ```ps1
 # start a pull
 ./trint-realtime.ps1 -pull   
+
+./trint-realtime.ps1 -pull -streamUrl "https://nhkwlive-xjp.akamaized.net/hls/live/2003458/nhkwlive-xjp-en/index_1M.m3u8"
+
 ./trint-realtime.ps1 -status -trintid M8z041GabcdefxxxMg 
 ./trint-realtime.ps1 -stop -trintid M8z041GabcdefxxxMg 
 ./trint-realtime.ps1 -status -trintid M8z041GabcdefxxxMg

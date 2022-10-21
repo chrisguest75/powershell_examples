@@ -2,11 +2,50 @@
 
 Demonstrate using the official AWS Powershell Module for ECS
 
-## Run Show-Queues
+## Run Show-Clusters
 
 ```ps1
+pwsh
+
 . ./.env.ps1   
 ./troubleshoot-ecs.ps1 -showclusters
+
+./troubleshoot-ecs.ps1 -services
+
+./troubleshoot-ecs.ps1 -tasks -cluster "arn:aws:ecs:region:account:cluster/name"
+```
+
+### Kill old tasks
+
+```powershell
+# get all tasks on cluster
+$tasks=(./troubleshoot-ecs.ps1 -tasks -cluster "arn:aws:ecs:region:account:cluster/clustername")
+
+# get taskdefinitions
+Get-ECSTaskDefinitionList
+
+# get tasks older than 6 hours
+$taskdefinition="mytaskdefinition"
+$oldtasks=($tasks | where { (($_.createdAt.addhours(6) -lt (get-date )) -and ($_.jobDefinition -eq $taskdefinition)) })
+
+$oldtasks | foreach-object { stop-ecstask -task $_.TaskArn -cluster $cluster}
+```
+
+
+```powershell
+# Get-ECSCapacityProvider
+
+# (Get-ECSClusterDetail -Cluster "arn:aws:ecs:us-east-1:accountid:cluster/cluster").Clusters
+
+# Get-ECSTaskDefinitionList
+# (Get-ECSTaskDefinitionDetail -TaskDefinition arn:aws:ecs:us-east-1:accountid:task-definition/definition:44).TaskDefinition
+
+# (Get-ECSTaskDetail -Cluster "arn:aws:ecs:us-east-1:accountid:cluster/cluster"  -Task "arn:aws:ecs:us-east-1:accountid:task/containerinstance").Failures
+
+# (Get-ECSContainerInstanceDetail -cluster "arn:aws:ecs:us-east-1:accountid:cluster/cluster"  -ContainerInstance  arn:aws:ecs:us-east-1:accountid:container-instance/containerinstance).Failures
+
+# Get-ECSTaskDetail -Task "arn:aws:ecs:region:account:task/id"
+
 ```
 
 ## Installation
@@ -48,3 +87,5 @@ Set-AWSCredential -ProfileName $profilename
 
 * aws/aws-tools-for-powershell repo [here](https://github.com/aws/aws-tools-for-powershell)
 * AWS Tools for PowerShell - Installation [here](https://docs.aws.amazon.com/powershell/latest/reference/Index.html)
+* Get-ECSTaskDetail Returns Only ServiceName
+ [here](https://github.com/aws/aws-tools-for-powershell/issues/136)  

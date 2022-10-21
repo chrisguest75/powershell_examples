@@ -13,30 +13,42 @@ Show help
 
 .Example
 
-Get-ECSCapacityProvider
+./troubleshoot-ecs.ps1 -showclusters
 
-(Get-ECSClusterDetail -Cluster "arn:aws:ecs:us-east-1:accountid:cluster/cluster").Clusters
-
-Get-ECSTaskDefinitionList
-(Get-ECSTaskDefinitionDetail -TaskDefinition arn:aws:ecs:us-east-1:accountid:task-definition/definition:44).TaskDefinition
-
-(Get-ECSTaskDetail -Cluster "arn:aws:ecs:us-east-1:accountid:cluster/cluster"  -Task "arn:aws:ecs:us-east-1:accountid:task/containerinstance").Failures
-
-(Get-ECSContainerInstanceDetail -cluster "arn:aws:ecs:us-east-1:accountid:cluster/cluster"  -ContainerInstance  arn:aws:ecs:us-east-1:accountid:container-instance/containerinstance).Failures
-
-Get-ECSTaskDetail -Task "arn:aws:ecs:region:account:task/id"
+./troubleshoot-ecs.ps1 -cluster "arn:aws:ecs:us-east-1:accountid:cluster/cluster" -services
 
 #>
 param(
     [Parameter(Mandatory=$false)][switch]$help=$false,
     [Parameter(Mandatory=$false)][switch]$showclusters=$false,
-    [Parameter(Mandatory=$false)][switch]$jobs=$false
+    [Parameter(Mandatory=$false)][string]$cluster="",
+    [Parameter(Mandatory=$false)][string]$service="",
+    [Parameter(Mandatory=$false)][switch]$services=$false,
+    [Parameter(Mandatory=$false)][switch]$tasks=$false
 )
 
 function Show-Clusters() {
     Get-ECSClusterList
 }
 
+function Show-Tasks($tasks) {
+    $tasks | Select-Object -Property @{
+        label='CreatedAt'
+        expression={ ($_.tasks.createdAt) }
+    },
+    @{
+        label='LastStatus'
+        expression={ ($_.tasks.LastStatus) }
+    },
+    @{
+        label='jobDefinition'
+        expression={ ($_.tasks.Taskdefinitionarn.split('/')[1]) }
+    },
+    @{
+        label='TaskArn'
+        expression={ ($_.tasks.TaskArn) }
+    }
+}
 
 #***********************************************************************************************************
 #** Usage
@@ -73,13 +85,23 @@ if ($showclusters) {
     Show-Clusters
 }
 
-if ($jobs) {
-    if($queue -eq "")
+if ($services) {
+    if($cluster -eq "")
     {
-        Write-Host "Queue name is missing (use -queue)"
+        Write-Host "Cluster name is missing (use -cluster)"
         return
     }
 
-    Show-Jobs -queue $queue -jobstatus $status
+    Get-ECSClusterService -cluster $cluster
 }
 
+if ($tasks) {
+    if($cluster -eq "")
+    {
+        Write-Host "Cluster name is missing (use -cluster)"
+        return
+    }
+
+    $alltasks=(Get-ECSTasks -cluster $cluster | ForEach-Object {Get-ECSTaskDetail -cluster $cluster -task $_ })
+    Show-Tasks $alltasks | sort-object -Property jobDefinition,createdAt,LastStatus -Descending 
+}
