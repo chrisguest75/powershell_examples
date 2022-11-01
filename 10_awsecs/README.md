@@ -2,17 +2,41 @@
 
 Demonstrate using the official AWS Powershell Module for ECS
 
+NOTE: With the `Get-ECSTaskDetail` cmdlet use `ConvertTo-Json -depth 100` on the returned object to see all fields.  
+
+TODO:  
+
+* find the logs from the task.  
+
 ## Run Show-Clusters
 
 ```ps1
 pwsh
 
 . ./.env.ps1   
+# get the clusters
 ./troubleshoot-ecs.ps1 -showclusters
 
-./troubleshoot-ecs.ps1 -services
+# get services on cluster
+./troubleshoot-ecs.ps1 -services  -cluster "arn:aws:ecs:region:account:cluster/name"
 
+# get tasks on cluster
 ./troubleshoot-ecs.ps1 -tasks -cluster "arn:aws:ecs:region:account:cluster/name"
+```
+
+```powershell
+# get details for a task (including TAGS)
+Get-ECSTaskDetail -cluster "mycluster" -Task "arn:aws:ecs:region:account:task/clustername/taskid" -include TAGS | convertto-json -depth 100
+
+# 
+Get-ECSContainerInstanceDetail -ContainerInstance "aa0d4bd6-75f6-4dd2-b77b-e5fc5124fc71" | convertto-json -depth 100
+```
+
+## Troubleshooting logs
+
+```powershell
+New-Item -Path "." -Name "out" -ItemType "directory" -Force
+./troubleshoot-ecs.ps1 -logs -logstream "logs/stream" -loggroup "groupname" |  Export-Csv -Path ./out/task.txt -NoTypeInformation    
 ```
 
 ### Kill old tasks
