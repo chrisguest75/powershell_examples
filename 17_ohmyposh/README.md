@@ -6,8 +6,7 @@ Demonstrate some `oh-my-posh` basics
 
 ```sh
 # can be installed using brew but not required
-brew tap jandedobbeleer/oh-my-posh
-brew install oh-my-posh
+brew install jandedobbeleer/oh-my-posh/oh-my-posh
 
 # show themes directory
 ls -l $(brew --prefix oh-my-posh)/themes
@@ -16,21 +15,6 @@ ls -l $(brew --prefix oh-my-posh)/themes
 pwsh
 oh-my-posh --init --shell pwsh --config ~/jandedobbeleer.omp.json | Invoke-Expression
 . $PROFILE
-```
-
-## Install PSGallery
-
-```ps1
-Install-Module oh-my-posh -Scope CurrentUser -AllowPrerelease
-Import-Module oh-my-posh   
-```
-
-## Load Module
-
-```ps1
-Find-Module  -Name "oh-my-posh"    
-Get-InstalledModule
-Import-Module oh-my-posh
 ```
 
 ## Configure Profile
@@ -50,7 +34,6 @@ cp *_profile.ps1 ~/.config/powershell/
 
 cp ./chrisguest.omp.json ~/.oh-my-posh/themes/
 #cp ./chrisguest.omp.json $(brew --prefix oh-my-posh)/themes 
-
 ```
 
 ## Terminal Icons
@@ -70,6 +53,23 @@ Set-PSReadLineOption -Colors @{
     "Operator" = [ConsoleColor]::Magenta;
     "Parameter" = [ConsoleColor]::Magenta
 }
+```
+
+## PsModule (depecated)
+
+## Install PSGallery
+
+```ps1
+Install-Module oh-my-posh -Scope CurrentUser -AllowPrerelease
+Import-Module oh-my-posh   
+```
+
+## Load Module
+
+```ps1
+Find-Module  -Name "oh-my-posh"    
+Get-InstalledModule
+Import-Module oh-my-posh
 ```
 
 ## Resources
