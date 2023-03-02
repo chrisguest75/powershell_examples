@@ -8,6 +8,10 @@ TODO:
 
 * find the logs from the task.  
 
+## Install & Configure
+
+Goto [10_aws_installation](../10_aws_installation/README.md)  
+
 ## Run Show-Clusters
 
 ```ps1
@@ -96,15 +100,6 @@ Get-ORGRoot
 Get-ORGAccountList
 
 Get-ECSTaskDetail -Task "arn:aws:ecs:region:account:task/id"
-```
-
-## Configure AWS
-
-```ps1
-Get-AWSCredential -ListProfile
-
-# set default
-Set-AWSCredential -ProfileName $profilename
 ```
 
 ## Resources  

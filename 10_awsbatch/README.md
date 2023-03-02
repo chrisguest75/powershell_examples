@@ -4,15 +4,7 @@ Demonstrate using the official AWS Powershell Module for Batch to diagnose faile
 
 ## Install & Configure
 
-```sh
-# install macoxs
-brew install powershell
-
-# linux (should be in standard package provider)
-
-# open shell
-pwsh   
-```
+Goto [10_aws_installation](../10_aws_installation/README.md)  
 
 ## Run Show-Queues
 
@@ -91,47 +83,10 @@ $retrybuckets
 
 Summarise Success and Failure for each queue  
 
-### Prod US  
-
 ```ps1
 $env:AWS_REGION="us-east-1"      
 # transcode queues
 ./generate-job-summaries.ps1 -generate -queues $queuename1,$queuename2
-```
-
-
-## Installation
-
-```ps1
-# ensure powershellget is installed
-Install-Module -Name PowerShellGet -RequiredVersion 2.2.1 -Force
-
-# install batch module 
-Find-Module  -Name "AWS.Tools.Batch*"
-Install-Module -Name "AWS.Tools.Batch"
-Get-InstalledModule
-Import-Module "AWS.Tools.Batch"
-Find-Command -ModuleName "AWS.Tools.Common"
-Find-Command -ModuleName "AWS.Tools.Batch"
-
-# sort functions by name
-Find-Command -ModuleName "AWS.Tools.Common" | sort-object Name
-```
-
-## Troubleshooting
-
-```sh
-# if modules are failing to load and you already have the modules installed try upgrading them.
-Update-AWSToolsModule  
-```
-
-## Configure AWS
-
-```ps1
-Get-AWSCredential -ListProfile
-
-# set default
-Set-AWSCredential -ProfileName $profilename
 ```
 
 ## Cloudwatch Logs
