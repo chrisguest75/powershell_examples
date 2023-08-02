@@ -45,6 +45,8 @@ $env:ENVIRONMENT_NAME=$environment
 $env:AWS_REGION=$config.$environment.region
 if ($config.$environment.profile -ne "default") {
     $env:AWS_PROFILE=$config.$environment.profile
+} else {
+    $env:AWS_PROFILE=""
 }
 $env:AWS_ACCOUNTID=$config.$environment.accountid
 
