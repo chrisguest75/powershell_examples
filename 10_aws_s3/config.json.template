@@ -1,0 +1,22 @@
+{
+    "local": {
+        "region":"us-east-1",
+        "profile":"local",
+        "accountid":""
+    },
+    "dev": {
+        "region":"us-east-1",
+        "profile":"dev",
+        "accountid":"000000000000"
+    },
+    "prod": {
+        "region":"us-east-1",
+        "profile":"prod", 
+        "accountid":"000000000000"
+    },
+    "playground": {
+        "region":"eu-west-1",
+        "profile":"playground",
+        "accountid":"000000000000"
+    }
+}
