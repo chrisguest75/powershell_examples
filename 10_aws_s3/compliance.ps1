@@ -65,7 +65,7 @@ Set-AWSCredential -ProfileName $env:AWS_PROFILE
 Set-DefaultAWSRegion -Region $env:AWS_REGION
 Write-Host "Configured: $env:AWS_PROFILE - $env:AWS_REGION"
 
-# TODO: Policies, Public Access, Encryption, Versioning, creation date, file count??, size, etc.
+# TODO: Encryption, Versioning.
 
 $buckets = Get-S3Bucket
 
@@ -125,8 +125,18 @@ $outbuckets = $buckets | ForEach-Object -Begin {
     }     
     Add-Member -inputobject $bucket -membertype NoteProperty -Name "Lifecycle" -Value $lifecycleName -Force
 
+    $storageType = "StandardStorage" # or another storage type as needed
 
-    $bucket | Select-Object BucketName,Logging,Tags,Public,Lifecycle,CreationDate
+    $endTime = (Get-Date)
+    $startTime = $endTime.AddDays(-10)
+
+    $datapoints = Get-CWMetricStatistics -Namespace AWS/S3 -MetricName BucketSizeBytes -UtcStartTime $startTime -UtcEndTime $endTime -Period 86400 -Statistics Average -Dimensions @(@{Name="BucketName";Value=$bucket.BucketName},@{Name="StorageType";Value=$storageType})
+    Add-Member -inputobject $bucket -membertype NoteProperty -Name "SizeInBytes" -Value ([int64]($datapoints.Datapoints[-1].Average)).ToString()
+
+    $datapoints  = Get-CWMetricStatistics -Namespace AWS/S3 -MetricName NumberOfObjects -UtcStartTime $startTime -UtcEndTime $endTime -Period 86400 -Statistics Average -Dimensions @(@{Name="BucketName";Value=$bucket.BucketName},@{Name="StorageType";Value="AllStorageTypes"})
+    Add-Member -inputobject $bucket -membertype NoteProperty -Name "NumberOfObjects" -Value ([int64]($datapoints.Datapoints[-1].Average)).ToString()
+
+    $bucket | Select-Object BucketName,Logging,Tags,Public,Lifecycle,CreationDate,SizeInBytes,NumberOfObjects
 
     #$out += $bucket
     # Increment the $i counter variable which is used to create the progress bar.
@@ -142,7 +152,7 @@ $outbuckets = $buckets | ForEach-Object -Begin {
     #$out
 }
 
-$outbuckets | sort-object Public | Format-Table -Property @{ e='BucketName'; width = 60 },@{ e='Public'; width = 6 },@{ e='Logging'; width = 80 },@{ e='Lifecycle'; width = 30 },@{ e='CreationDate'; width = 15 },@{ e='Tags'; width = 80 }
+$outbuckets | sort-object Public | Format-Table -Property @{ e='BucketName'; width = 60 },@{ e='Public'; width = 6 },@{ e='Logging'; width = 80 },@{ e='SizeInBytes'; width = 20 },@{ e='NumberOfObjects'; width = 12 },@{ e='Lifecycle'; width = 30 },@{ e='CreationDate'; width = 15 },@{ e='Tags'; width = 80 }
 
 $outPath = "$PSScriptRoot/output"
 $outFile = "$outPath/$environment-buckets.csv"

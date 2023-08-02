@@ -4,7 +4,7 @@ A tool to help check buckets in an AWS account.
 
 TODO:
 
-* Policies, Public Access, Encryption, Versioning, creation date, file count??, size, etc.
+* Encryption, Versioning
 
 Demonstrates:
 
