@@ -43,12 +43,16 @@ $config = get-content $PSScriptRoot/config.json | ConvertFrom-Json
 
 $env:ENVIRONMENT_NAME=$environment
 $env:AWS_REGION=$config.$environment.region
-$env:AWS_PROFILE=$config.$environment.profile
+if ($config.$environment.profile -ne "default") {
+    $env:AWS_PROFILE=$config.$environment.profile
+}
 $env:AWS_ACCOUNTID=$config.$environment.accountid
 
-if ($null -eq $env:AWS_PROFILE) {
-    Write-Host "AWS_PROFILE is not set"
-    return
+if ($config.$environment.profile -ne "default") {
+    if ($null -eq $env:AWS_PROFILE) {
+        Write-Host "AWS_PROFILE is not set"
+        return
+    }
 }
 if ($null -eq $env:AWS_REGION) {
     Write-Host "AWS_REGION is not set"
@@ -66,29 +70,65 @@ Write-Host "Configured: $env:AWS_PROFILE - $env:AWS_REGION"
 $buckets = Get-S3Bucket
 
 # gather data 
-$buckets = $buckets | ForEach-Object -Begin {
+$outbuckets = $buckets | ForEach-Object -Begin {
     # Set the $i counter variable to zero.
     $i = 0
     # Set the $out variable to a empty string.
     $out = @()
 } -Process {
     $bucket = $_
-    $tagging = Get-S3BucketTagging -BucketName $bucket.BucketName
-    if ($tagging -eq $null) {
-        $tagging = ""
-    } else {
-        $tags = $tagging | ConvertTo-Csv -NoTypeInformation -Delimiter "=" -UseQuotes AsNeeded | select-object -skip 1 
-        $tagging = $tags -join ","
-    }
+    # tags
+    $tagging = ""
+    try {
+        $tagging = Get-S3BucketTagging -BucketName $bucket.BucketName
+        if ($tagging -eq $null) {
+            $tagging = ""
+        } else {
+            $tags = $tagging | ConvertTo-Csv -NoTypeInformation -Delimiter "=" -UseQuotes AsNeeded | select-object -skip 1 
+            $tagging = $tags -join ","
+        }
+    } catch {
+        Write-Host "Get-S3BucketTagging ERROR:" $bucket.BucketName $_.Exception
+    }     
     Add-Member -inputobject $bucket -membertype NoteProperty -Name "Tags" -Value $tagging -Force
-    $logging = Get-S3BucketLogging -BucketName $bucket.BucketName
+    
+    # logging
     $loggingPath = ""
-    if ($logging.TargetBucketName -ne $null) {
-        $loggingPath = ("s3://" + $logging.TargetBucketName + "/" + $logging.TargetPrefix)
-    }
+    try {
+        $logging = Get-S3BucketLogging -BucketName $bucket.BucketName
+        $loggingPath = ""
+        if ($logging.TargetBucketName -ne $null) {
+            $loggingPath = ("s3://" + $logging.TargetBucketName + "/" + $logging.TargetPrefix)
+        }
+    } catch {
+        Write-Host "Get-S3BucketLogging ERROR:" $bucket.BucketName $_.Exception
+    }     
     Add-Member -inputobject $bucket -membertype NoteProperty -Name "Logging" -Value $loggingPath -Force
-    $bucket | Select-Object BucketName,Logging,Tags
-    $out += $bucket
+
+    # public
+    $ispublic = "N/A"
+    try {
+        $ispublic = (Get-S3BucketPolicyStatus -BucketName $bucket.BucketName).IsPublic
+    } catch {
+        Write-Host "Get-S3BucketPolicyStatus ERROR:" $bucket.BucketName
+        #Write-Host "Get-S3BucketPolicyStatus ERROR:" $bucket.BucketName $_.Exception
+    }     
+    Add-Member -inputobject $bucket -membertype NoteProperty -Name "Public" -Value $ispublic -Force
+
+    # lifecycle policy 
+    $lifecycleName = "N/A"
+    try {
+        $lifecycleName = (Get-S3LifecycleConfiguration -BucketName $bucket.BucketName).Rules.Id
+    } catch {
+        Write-Host "Get-S3LifecycleConfiguration ERROR:" $bucket.BucketName
+        #Write-Host "Get-S3BucketPolicyStatus ERROR:" $bucket.BucketName $_.Exception
+    }     
+    Add-Member -inputobject $bucket -membertype NoteProperty -Name "Lifecycle" -Value $lifecycleName -Force
+
+
+    $bucket | Select-Object BucketName,Logging,Tags,Public,Lifecycle,CreationDate
+
+    #$out += $bucket
     # Increment the $i counter variable which is used to create the progress bar.
     $i = $i+1
     # Determine the completion percentage (2 decimal places)
@@ -99,15 +139,15 @@ $buckets = $buckets | ForEach-Object -Begin {
 
 } -End {
     # Display the matching messages using the out variable.
-    $out
+    #$out
 }
 
-$buckets | Format-Table -Property @{ e='BucketName'; width = 60 },@{ e='Logging'; width = 80 },@{ e='Tags'; width = 80 }
+$outbuckets | sort-object Public | Format-Table -Property @{ e='BucketName'; width = 60 },@{ e='Public'; width = 6 },@{ e='Logging'; width = 80 },@{ e='Lifecycle'; width = 30 },@{ e='CreationDate'; width = 15 },@{ e='Tags'; width = 80 }
 
 $outPath = "$PSScriptRoot/output"
 $outFile = "$outPath/$environment-buckets.csv"
 $folder = New-Item -ItemType Directory -Force -Path $outPath
 Write-Host "Writing: $outFile"
-$buckets | Export-CSV -NoTypeInformation -Delimiter "," -UseQuotes AsNeeded -Path $outFile
+$outbuckets | Export-CSV -NoTypeInformation -Delimiter "," -UseQuotes AsNeeded -Path $outFile
 
 # TODO: apply policies to it.  
