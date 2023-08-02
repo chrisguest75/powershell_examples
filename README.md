@@ -103,12 +103,12 @@ Steps [README.md](./09_jupyter/README.md)
 ## 10 - awsbatch
 
 Demonstrate using the official AWS Powershell Module for Batch  
-Steps [README.md](./10_awsbatch/README.md)  
+Steps [README.md](./10_aws_batch/README.md)  
 
 ## 10 - awsecs
 
 Demonstrate using the official AWS Powershell Module for ECS  
-Steps [README.md](./10_awsecs/README.md)  
+Steps [README.md](./10_aws_ecs/README.md)  
 
 ## 11 - logging
 
