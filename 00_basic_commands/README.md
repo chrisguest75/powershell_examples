@@ -43,7 +43,7 @@ get-help default –detailed
 get-verb
 
 #** NOT WORKING category filtering **
-get-help * -Category cmdlet
+get-help * -Category Cmdlet | sort-object name | format-table
 get-help * -category alias
 ```
 
