@@ -4,7 +4,37 @@
 
 Powershell examples.
 
+- [README](#readme)
+  - [📋 Prereqs](#-prereqs)
+    - [MacOS](#macos)
+    - [WSL Ubuntu](#wsl-ubuntu)
+  - [Test](#test)
+  - [🏠 Enable brew](#-enable-brew)
+  - [00 - Basic Commands](#00---basic-commands)
+  - [01 - Template](#01---template)
+  - [02 - JSON](#02---json)
+  - [03 - Docker](#03---docker)
+  - [04 - Mongo Module](#04---mongo-module)
+  - [05 - Pester](#05---pester)
+  - [06 - AWS CLI](#06---aws-cli)
+  - [07 - String Generation](#07---string-generation)
+  - [08 - Iterate Folders](#08---iterate-folders)
+  - [09 - Jupyter](#09---jupyter)
+  - [10 - awsbatch](#10---awsbatch)
+  - [10 - awsecs](#10---awsecs)
+  - [11 - logging](#11---logging)
+  - [12 - remoting](#12---remoting)
+  - [17 - oh-my-posh](#17---oh-my-posh)
+  - [19 - PSScriptAnalyzer](#19---psscriptanalyzer)
+  - [20 - pode webserver](#20---pode-webserver)
+  - [20 - AST](#20---ast)
+  - [22 - dotnet](#22---dotnet)
+  - [24 - trint apis](#24---trint-apis)
+  - [👀 Resources](#-resources)
+
 ## 📋 Prereqs
+
+### MacOS
 
 ```sh
 # current version
@@ -16,6 +46,45 @@ brew install powershell
 # upgrade
 brew upgrade powershell
 ```
+
+### WSL Ubuntu
+
+Based on [powershell/scripting/install/install-ubuntu](https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.3)  
+
+```sh
+###################################
+# Prerequisites
+
+# Update the list of packages
+sudo apt-get update
+
+# Install pre-requisite packages.
+sudo apt-get install -y wget apt-transport-https software-properties-common
+
+# Get the version of Ubuntu
+source /etc/os-release
+
+# Download the Microsoft repository keys
+wget -q https://packages.microsoft.com/config/ubuntu/$VERSION_ID/packages-microsoft-prod.deb
+
+# Register the Microsoft repository keys
+sudo dpkg -i packages-microsoft-prod.deb
+
+# Delete the the Microsoft repository keys file
+rm packages-microsoft-prod.deb
+
+# Update the list of packages after we added packages.microsoft.com
+sudo apt-get update
+
+###################################
+# Install PowerShell
+sudo apt-get install -y powershell
+
+# Start PowerShell
+pwsh
+```
+
+## Test
 
 ```sh
 # open shell
@@ -144,6 +213,5 @@ Steps [README.md](./24_trint_apis/README.md)
 
 * Official product documentation for PowerShell [here](https://docs.microsoft.com/en-us/powershell/)
 * adamdriscoll/awesome-powershell repo [here](https://github.com/adamdriscoll/awesome-powershell)
-* `cheatsheet powershell`
+* Use `cheatsheet powershell`
 * PowerShell/PowerShell repo [here](https://github.com/PowerShell/PowerShell)
-
