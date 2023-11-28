@@ -16,6 +16,8 @@ pwsh
 
 ## Updating Modules
 
+NOTE: You may have trouble with this.  You'll have to close down every `pwsh` process. 
+
 ```ps1
 # ensure powershellget is installed
 Install-Module -Name PowerShellGet -RequiredVersion 2.2.1 -Force
