@@ -60,6 +60,8 @@ brew upgrade powershell
 
 ### WSL Ubuntu
 
+It looks like Linux Brew does not have Powershell for Linux.  
+
 Based on [powershell/scripting/install/install-ubuntu](https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.3)  
 
 ```sh
@@ -93,6 +95,8 @@ sudo apt-get install -y powershell
 
 # Start PowerShell
 pwsh
+
+$PSVersionTable
 ```
 
 ## Test

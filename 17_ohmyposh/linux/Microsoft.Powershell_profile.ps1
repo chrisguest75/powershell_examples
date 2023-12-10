@@ -1,6 +1,4 @@
-Import-Module oh-my-posh
-Set-PoshPrompt -Theme chrisguest
-#Set-PoshPrompt -Theme powerline
+oh-my-posh init pwsh --config ~\.oh-my-posh\themes\chrisguest.omp.json | Invoke-Expression
 
 Import-Module -Name Terminal-Icons
 

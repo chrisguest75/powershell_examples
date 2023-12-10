@@ -22,7 +22,8 @@ NOTES:
 
 * Install terminal icons.  
 * Ensure that the "MesloLGM Nerd Font Mono" is installed.  
-* Ensure you have upgraded to Powershell >7.4 on Windows
+* Ensure you have upgraded to Powershell >7.4 on Windows.
+* Be careful of file path casing on Linux.  
 
 ## Install (windows)
 
@@ -71,7 +72,7 @@ echo $env:POSH_THEME
 # can be installed using brew but not required
 brew install jandedobbeleer/oh-my-posh/oh-my-posh
 
-# show themes directory
+# show themes directory (in zsh/bash)
 ls -l $(brew --prefix oh-my-posh)/themes
 
 # 
@@ -83,16 +84,22 @@ oh-my-posh --init --shell pwsh --config ~/jandedobbeleer.omp.json | Invoke-Expre
 ## Configure profile (brew)
 
 ```ps1
+# print location of profile
 write-host $profile
 
-/Users/$env:USER/.config/powershell/Microsoft.VSCode_profile.ps1
+# create profile location and copy over stored one
+mkdir ~/.config/powershell/
+cp ./linux/Microsoft.PowerShell_profile.ps1 $profile
+cat $profile
 
-/Users/$env:USER/.config/powershell/Microsoft.PowerShell_profile.ps1
-
-cp *_profile.ps1 ~/.config/powershell/
-
+# copy over my theme
+mkdir -p ~/.oh-my-posh/themes/
 cp ./chrisguest.omp.json ~/.oh-my-posh/themes/
-#cp ./chrisguest.omp.json $(brew --prefix oh-my-posh)/themes 
+
+# reload profile
+. $PROFILE
+
+echo $env:POSH_THEME
 ```
 
 ## Terminal Icons
