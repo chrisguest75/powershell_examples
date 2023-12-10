@@ -107,13 +107,14 @@ get-childitem
 
 My standard solarised shell hides parameters.  Some default powershell colours need to be changed.  
 
-NOTE: This seems fixed now.  
-
 ```ps1
 Set-PSReadLineOption -Colors @{
     "Operator" = [ConsoleColor]::Magenta;
     "Parameter" = [ConsoleColor]::Magenta
 }
+
+# test it (can you see the parameters?)
+wsl --list --verbose
 ```
 
 ## Resources
