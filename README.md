@@ -4,8 +4,12 @@
 
 Powershell examples.
 
+## Contents
+
 - [README](#readme)
+  - [Contents](#contents)
   - [📋 Prereqs](#-prereqs)
+    - [Windows](#windows)
     - [MacOS](#macos)
     - [WSL Ubuntu](#wsl-ubuntu)
   - [Test](#test)
@@ -30,9 +34,16 @@ Powershell examples.
   - [20 - AST](#20---ast)
   - [22 - dotnet](#22---dotnet)
   - [24 - trint apis](#24---trint-apis)
+  - [25 - windows helpers](#25---windows-helpers)
   - [👀 Resources](#-resources)
 
 ## 📋 Prereqs
+
+### Windows
+
+Ensure that Powershell is upgraded to the latest version [here](https://learn.microsoft.com/en-gb/powershell/scripting/install/installing-powershell-on-windows)  
+
+Switch the terminal app to point to `C:\Program Files\PowerShell\7\pwsh.exe` to start and configure `oh-my-posh` [chrisguest75/powershell_examples/17_ohmyposh/README.md](https://github.com/chrisguest75/powershell_examples/blob/main/17_ohmyposh/README.md)  
 
 ### MacOS
 
@@ -208,6 +219,11 @@ Steps [README.md](./22_dotnet/README.md)
 
 Demonstate using `trint` live API  
 Steps [README.md](./24_trint_apis/README.md)  
+
+## 25 - windows helpers
+
+A set of helpers for working with Windows.  
+Steps [README.md](./25_windows_helpers/README.md)  
 
 ## 👀 Resources
 
