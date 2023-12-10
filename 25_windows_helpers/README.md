@@ -18,4 +18,11 @@ Stupidly Windows does not allow you to copy fonts names in the app.
 [System.Environment]::OSVersion
 ```
 
+## Shutdown
+
+```powershell
+# shutdown the computer immediately
+Stop-Computer -ComputerName localhost
+```
+
 ## Resources
