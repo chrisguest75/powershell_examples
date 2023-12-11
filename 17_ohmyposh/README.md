@@ -52,13 +52,17 @@ write-host $profile
 write-host C:\Users\$env:USERNAME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
 
 # create profile location and copy over stored one
-mkdir ~\Documents\PowerShell\
-cp .\windows\*_profile.ps1 ~\Documents\PowerShell\
+
+# NOTE: Some powershell profile paths have OneDrive in them..
+# TODO: Check why this is the case.
+$PROFILE_BASE_PATH="$HOME\OneDrive"
+mkdir "${PROFILE_BASE_PATH}\Documents\PowerShell\"
+cp ".\windows\*_profile.ps1" "${PROFILE_BASE_PATH}\Documents\PowerShell\"
 cat $profile
 
 # copy over my theme
-mkdir ~/.oh-my-posh/themes/
-cp ./chrisguest.omp.json ~/.oh-my-posh/themes/
+mkdir "${PROFILE_BASE_PATH}/.oh-my-posh/themes/"
+cp ./chrisguest.omp.json "${PROFILE_BASE_PATH}/.oh-my-posh/themes/"
 
 # reload profile
 . $PROFILE
