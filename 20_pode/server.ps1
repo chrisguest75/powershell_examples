@@ -4,7 +4,7 @@ Import-Module -Name Pode -MaximumVersion 2.99.99
 
 Start-PodeServer {
     # logic
-    Add-PodeEndpoint -Address localhost -Port 8080 -Protocol Http
+    Add-PodeEndpoint -Address 0.0.0.0 -Port 8080 -Protocol Http
     New-PodeLoggingMethod -Terminal | Enable-PodeRequestLogging
 
     Add-PodeRoute -Method Get -Path '/' -ScriptBlock {

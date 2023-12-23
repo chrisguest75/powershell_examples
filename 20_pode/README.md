@@ -31,6 +31,22 @@ curl http://localhost:8080/processes
 Start-PodeServer -FilePath '.\20_pode\server.ps1'
 ```
 
+## Start Docker
+
+```sh
+# build 
+docker build -t pode_server .
+
+# run
+docker run -p 8080:8080 --name pode_server -it --rm pode_server
+
+# logs
+docker logs pode_server
+
+# stop
+docker stop pode_server
+```
+
 ## Create
 
 ```ps1
@@ -43,4 +59,4 @@ pode init
 * Building your first Pode app [here](https://badgerati.github.io/Pode/Getting-Started/FirstApp/#rest-server)  
 * Pode documentation [here](https://badgerati.github.io/Pode/)
 * https://github.com/Badgerati/Pode
-* https://github.com/Badgerati/Pode.Web
+* https://badgerati.github.io/Pode/Hosting/Docker/
