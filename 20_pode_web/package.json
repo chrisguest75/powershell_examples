@@ -1,0 +1,14 @@
+{
+  "name": "20_pode_web",
+  "license": "MIT",
+  "scripts": {
+    "start": "./server.ps1",
+    "build": "psake",
+    "test": "invoke-pester ./tests/*.ps1",
+    "install": "yarn install --force --ignore-scripts --modules-folder pode_modules"
+  },
+  "version": "1.0.0",
+  "description": "Host a rest endpoint using Pode",
+  "author": "",
+  "main": "./server.ps1"
+}
