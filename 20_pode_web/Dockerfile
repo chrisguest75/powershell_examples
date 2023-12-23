@@ -6,7 +6,7 @@ FROM badgerati/pode.web:latest
 
 # copy over the local files to the container
 COPY ./server.ps1 /usr/src/app/
-COPY ./pages /usr/src/app/pages
+#COPY ./pages /usr/src/app/pages
 
 # expose the port
 EXPOSE 8080
