@@ -1,4 +1,4 @@
-# README
+# PODE
 
 Use `pode` to build a simple webserver.  
 
@@ -23,6 +23,12 @@ get-help pode
 ```ps1
 # start server
 pode start
+
+curl http://localhost:8080
+curl http://localhost:8080/processes
+
+# start without using cli
+Start-PodeServer -FilePath '.\20_pode\server.ps1'
 ```
 
 ## Create
