@@ -7,8 +7,7 @@ REF: [github.com/chrisguest75/configuring_machines/windows/HYPERV.md](https://gi
 TODO:
 
 * Install hyperv on linux powershell
-* Install ubuntu with openssh enabled
-* Get disk sizes
+* AFAICS you cannot install the hyperv management tools on linux powershell core.  
 
 ## Help
 
